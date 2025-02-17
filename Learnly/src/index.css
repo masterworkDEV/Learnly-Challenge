@@ -1,0 +1,296 @@
+:root {
+  --main-bg: #f1f1f1;
+  --white-bg: #fff;
+  --form-header: #4d0496;
+  --text-primary: #333;
+  --text-secondary: #fafafa;
+
+  --font-size-bg: 1.5rem;
+  --font-size: 1rem;
+  --font-family: "Poppins", serif;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+ul {
+  list-style: upper-alpha;
+}
+
+html {
+  font-size: var(--font-size);
+  font-family: var(--font-family);
+  scroll-behavior: smooth;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  width: 100%;
+  min-height: 100vh;
+}
+#root {
+  display: flex;
+  justify-content: center;
+  flex-grow: 1;
+  width: 100%;
+  min-height: 100vh;
+  overflow-y: auto;
+}
+
+.app {
+  display: flex;
+  background-color: var(--main-bg);
+  background-color: var(--main-bg);
+  position: relative;
+  width: 100%;
+  max-width: 850px;
+  box-shadow: 0px 1px 3px #ddd;
+  padding-inline: 1.5rem;
+}
+
+/* home page */
+
+.main-header {
+  position: fixed;
+  width: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: inherit;
+  max-width: 850px;
+  height: 3rem;
+  top: 2%;
+  padding-inline: 1.5rem;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.main-header h3 {
+  font-size: var(--font-size-bg);
+}
+.main-header > button {
+  height: 2.5rem;
+  width: 2.5rem;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  height: 100vh;
+  width: inherit;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.content > .btns {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: inherit;
+  gap: 0.7rem;
+}
+
+.content > .btns > button {
+  background: var(--form-header);
+  width: inherit;
+  border: none;
+  font-size: var(--font-size);
+  color: var(--text-secondary);
+  padding: 1rem;
+  border-radius: 0.3rem;
+  box-shadow: 0px 2px 3px #ddd;
+  font-weight: 600;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.4s;
+
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
+}
+
+.content > .btns > button:nth-last-of-type(1) {
+  background: #fff;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1) 0.2s;
+  a {
+    color: var(--form-header);
+  }
+  &:hover {
+    background: var(--form-header);
+    color: var(--text-secondary);
+    text-decoration: underline;
+    a {
+      color: var(--text-secondary);
+    }
+  }
+}
+
+/* quiz game */
+.game {
+  width: 100%;
+  height: 100vh;
+}
+.game-header {
+  padding: 1.5rem;
+  margin-top: 4rem;
+  padding-inline: 1rem;
+  border-radius: 0.3rem;
+  box-shadow: 0px 1px 3px #ddd;
+  width: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--form-header);
+}
+
+.game-header .points {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  p {
+    color: var(--text-secondary);
+  }
+}
+
+.game-header > p {
+  color: var(--text-secondary);
+}
+
+.question h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.answers {
+  margin-top: 2rem;
+}
+.answers > .option {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  gap: 0.5rem;
+  padding: 1.5rem 2rem;
+
+  margin-bottom: 1rem;
+  box-shadow: 0px 1px 3px #ddd;
+  border-radius: 0.3rem;
+}
+
+.game > .buttons {
+  position: fixed;
+  width: inherit;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: inherit;
+  gap: 3rem;
+  max-width: 850px;
+  height: 3rem;
+  padding-inline: 1.5rem;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.game .buttons > button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: #ddd;
+  box-shadow: 0px 2px 4px #ddd;
+  border-radius: 1rem;
+  padding: 1rem;
+  font-size: 2rem;
+}
+
+.game .buttons button:nth-last-of-type(1) {
+  width: inherit;
+  color: var(--text-secondary);
+  background: var(--form-header);
+  font-weight: 600;
+  font-size: var(--font-size);
+  padding: 1.5rem;
+}
+
+/* conditional styles */
+
+.option.selected {
+  border: 1px solid red;
+}
+
+.option.correct {
+  border: 1px solid green;
+}
+
+.result-modal {
+  position: fixed;
+  max-width: 850px;
+  width: inherit;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding-inline: 1.5rem;
+  z-index: 2;
+}
+
+.result-commendation {
+  background: var(--white-bg);
+  border-radius: 0.3rem;
+  padding: 1rem;
+
+  .username {
+    font-size: x-large;
+    color: #4d0496;
+  }
+  .points {
+    display: flex;
+    gap: 0.3rem;
+    color: var(--form-header);
+  }
+}
+
+.overlay {
+}
+
+/* game preference */
+.game-preference {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form input,
+.form select,
+.form button {
+  padding: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 0.3rem;
+  font-size: var(--font-size);
+  border: none;
+}
+
+.form > button {
+  background: var(--form-header);
+  color: var(--white-bg);
+}
+
+.back-home {
+  position: fixed;
+  top: 1%;
+  text-decoration: none;
+}
