@@ -6,7 +6,6 @@ const Question = ({ currentQuestionData, currentQuestion }) => {
   useEffect(() => {
     if (currentQuestionData) {
       setQuestion(currentQuestionData);
-      console.log(currentQuestionData);
     }
   }, [currentQuestionData]);
 

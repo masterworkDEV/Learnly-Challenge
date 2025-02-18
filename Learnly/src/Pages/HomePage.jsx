@@ -1,13 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const HomePage = () => {
+const HomePage = ({ handleDarkMode, darkMode }) => {
   return (
     <>
       <header className="main-header">
-        <h3>Learnly</h3>
-        <button className="toggler">
-          <i class="bx bx-sun"></i>
+        <h1>Learnly</h1>
+        <button className="toggler" onClick={handleDarkMode}>
+          {darkMode ? <i class="bx bx-moon"></i> : <i class="bx bx-sun"></i>}
         </button>
       </header>
       <main className="content">

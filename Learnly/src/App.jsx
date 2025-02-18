@@ -12,7 +12,7 @@ function App() {
 
   const [quiz, setQuiz] = useState([]);
   const [userName, setUserName] = useState("");
-
+  const [darkMode, setDarkMode] = useState(false);
   // other steps such as category and other user preference would be added later
   const [difficulty, setDifficulty] = useState([
     {
@@ -29,6 +29,10 @@ function App() {
   const handleFormSubmission = (e) => {
     e.preventDefault();
     navigate("/quiz");
+  };
+
+  const handleDarkMode = () => {
+    setDarkMode(!darkMode);
   };
 
   // API fetch logic
@@ -54,9 +58,15 @@ function App() {
   }, [API_URL]);
 
   return (
-    <div className="app">
+    <div className={`app ${darkMode ? "darkMode" : ""}`}>
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/"
+          element={<HomePage 
+            handleDarkMode={handleDarkMode} 
+            darkMode={darkMode}
+            />}
+        />
         <Route
           path="/quiz"
           element={

@@ -88,7 +88,8 @@ const QuizApp = ({ quiz, userName }) => {
   return (
     <>
       <Link to="/" className="back-home">
-        Home
+        <i class="bx bx-chevron-left"></i>
+        <span>Home</span>
       </Link>
 
       <main className="game">
