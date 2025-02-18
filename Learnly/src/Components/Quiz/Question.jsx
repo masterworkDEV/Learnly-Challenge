@@ -11,7 +11,8 @@ const Question = ({ currentQuestionData, currentQuestion }) => {
 
   return (
     <div className="question">
-      <h3>Question {currentQuestion}</h3> <p>{question.question}?</p>
+      <h3>Question {currentQuestion}</h3>
+      <p>{question.question}?</p>
     </div>
   );
 };

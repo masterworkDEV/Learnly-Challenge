@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
+import axios from "axios";
+
 import { Link } from "react-router-dom";
 import Header from "../Components/Quiz/GameHeader";
 import Question from "../Components/Quiz/Question";
 import Buttons from "../Components/Quiz/Buttons";
 import Options from "../Components/Quiz/Options";
 
-const QuizApp = ({ quiz, userName }) => {
+const QuizApp = ({ selectedDifficulty, userName }) => {
+  const [quiz, setQuiz] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [selectedOption, setSelectedOption] = useState(null);
   const [correctAnswer, setCorrectAnswer] = useState(false);
@@ -14,6 +17,31 @@ const QuizApp = ({ quiz, userName }) => {
   const [showResult, setShowResult] = useState(false);
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
 
+  // API fetch logic
+
+  const API_URL = import.meta.env.VITE_API_URL;
+  useEffect(() => {
+    const fetchQuizes = async () => {
+      try {
+        const response = await axios.get(API_URL);
+        const data = await response.data.results.map((quiz) => {
+          return { ...quiz, difficulty: selectedDifficulty };
+        });
+
+        setQuiz(data);
+      } catch (err) {
+        if (err.response) {
+          console.log(err.message);
+        } else {
+          console.log(err);
+        }
+      }
+    };
+
+    fetchQuizes();
+  }, [API_URL]);
+
+  //initiate timer
   useEffect(() => {
     let timer;
 
@@ -129,7 +157,7 @@ const QuizApp = ({ quiz, userName }) => {
             />
             {correctAnswer && (
               <div className="correctAnswer">
-                congratulations {selectedOption} is the correct answer{" "}
+                congratulations <b> {selectedOption}</b> is the correct answer{" "}
               </div>
             )}
             <Buttons
