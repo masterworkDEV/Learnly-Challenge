@@ -69,6 +69,7 @@ const QuizApp = ({ quiz, userName }) => {
     setCurrentQuestion(1);
     setSelectedOption(null);
     setScore(0);
+    setCheckedAnswer(false);
     setShowResult(false);
     setTimeLeft(300); // Reset timer
   };
