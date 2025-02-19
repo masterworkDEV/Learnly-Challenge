@@ -1,19 +1,32 @@
 import { useState, useEffect } from "react";
-
 import QuizApp from "./Pages/QuizApp";
 import HomePage from "./Pages/HomePage";
 import GamePreference from "./Components/Quiz/GamePreference";
 import { Routes, Route, useNavigate } from "react-router-dom";
 
+// We are prop dilling here, because it's a small application. However, in the future we can use a state management e.g (Context API, Redux, Easy Peasy...)
+
 function App() {
   const navigate = useNavigate();
-  // We are prop dilling here, because it's a small application. However, in the future we can use a state management, so as to manage our state and data efficiently across components.
-
-  const [userName, setUserName] = useState("");
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("darkMode"))
   );
-  // other steps such as category and other user preference would be added later
+
+  const [userName, setUserName] = useState("");
+  const [types, setTypes] = useState(["multiple", "boolean"]);
+  const [selectedType, setSelectedType] = useState(""); // State for selected types
+
+  const [categories, setCategories] = useState([
+    "Science: Computers",
+    "Science: Mathematics",
+    "History",
+    "Geography",
+    "Science: Nature",
+    "General Knowledge",
+    "Entertainment: Music",
+    "Entertainment: Film",
+  ]);
+  const [selectedCategory, setSelectedCategory] = useState(""); // State for selected catgeories
   const [difficulty, setDifficulty] = useState(["easy", "hard", "medium"]);
   const [selectedDifficulty, setSelectedDifficulty] = useState(""); // State for selected difficulty
 
@@ -41,8 +54,10 @@ function App() {
           path="/quiz"
           element={
             <QuizApp
-              selectedDifficulty={selectedDifficulty}
               userName={userName}
+              selectedType={selectedType}
+              selectedCategory={selectedCategory}
+              selectedDifficulty={selectedDifficulty}
             />
           }
         />
@@ -53,6 +68,12 @@ function App() {
               handleFormSubmission={handleFormSubmission}
               userName={userName}
               setUserName={setUserName}
+              types={types}
+              selectedType={selectedType}
+              setSelectedType={setSelectedType}
+              categories={categories}
+              selectedCategory={selectedCategory}
+              setSelectedCategory={setSelectedCategory}
               difficulty={difficulty}
               selectedDifficulty={selectedDifficulty}
               setSelectedDifficulty={setSelectedDifficulty}

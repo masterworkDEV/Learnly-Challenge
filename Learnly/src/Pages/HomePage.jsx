@@ -7,7 +7,11 @@ const HomePage = ({ handleDarkMode, darkMode }) => {
       <header className="main-header">
         <h1>Learnly</h1>
         <button className="toggler" onClick={handleDarkMode}>
-          {darkMode ? <i class="bx bx-moon"></i> : <i class="bx bx-sun"></i>}
+          {darkMode ? (
+            <i className="bx bx-moon"></i>
+          ) : (
+            <i className="bx bx-sun"></i>
+          )}
         </button>
       </header>
       <main className="content">

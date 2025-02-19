@@ -52,7 +52,14 @@ body {
 }
 
 .app.darkMode {
-  background: rgba(16, 10, 20, 0.953);
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 1, 16, 0.968),
+    black,
+    rgba(0, 0, 0, 0.9),
+    rgba(10, 1, 16, 0.968),
+    black
+  );
   color: var(--text-secondary);
 
   .answers > .option {

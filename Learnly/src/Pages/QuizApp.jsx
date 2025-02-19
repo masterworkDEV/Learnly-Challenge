@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-
 import { Link } from "react-router-dom";
 import Header from "../Components/Quiz/GameHeader";
 import Question from "../Components/Quiz/Question";
 import Buttons from "../Components/Quiz/Buttons";
 import Options from "../Components/Quiz/Options";
 
-const QuizApp = ({ selectedDifficulty, userName }) => {
+const QuizApp = ({
+  userName,
+  selectedType,
+  selectedCategory,
+  selectedDifficulty,
+}) => {
   const [quiz, setQuiz] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [selectedOption, setSelectedOption] = useState(null);
@@ -25,9 +29,13 @@ const QuizApp = ({ selectedDifficulty, userName }) => {
       try {
         const response = await axios.get(API_URL);
         const data = await response.data.results.map((quiz) => {
-          return { ...quiz, difficulty: selectedDifficulty };
+          return {
+            ...quiz,
+            type: selectedType,
+            category: selectedCategory,
+            difficulty: selectedDifficulty,
+          };
         });
-
         setQuiz(data);
       } catch (err) {
         if (err.response) {
