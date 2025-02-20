@@ -4,7 +4,7 @@ const Options = ({
   currentQuestionData,
   handleOptionChange,
   selectedOption,
-  checkedAnswer, // New prop to indicate if the user has submitted an answer
+  verifyAnswer, // New prop to indicate if the user has submitted an answer
 }) => {
   const [allOptions, setAllOptions] = useState([]);
 
@@ -33,7 +33,7 @@ const Options = ({
               ? "wrong"
               : ""
           } ${
-            checkedAnswer && option === currentQuestionData.correct_answer
+            verifyAnswer && option === currentQuestionData.correct_answer
               ? "correct"
               : ""
           }`}

@@ -17,10 +17,12 @@ const GamePreference = ({
 }) => {
   return (
     <>
-      <Link to="/" className="back-home">
-        <i className="bx bx-chevron-left"></i>
-        <span>Home</span>
-      </Link>
+      <nav className="pref-nav">
+        <Link to="/" className="">
+          <i className="bx bx-chevron-left"></i>
+          <span>Home</span>
+        </Link>
+      </nav>
       <main className="game-preference">
         <form className="form" onSubmit={(e) => handleFormSubmission(e)}>
           {" "}
@@ -42,21 +44,6 @@ const GamePreference = ({
           >
             <option value="">Type</option>
             {types.map((stage) => (
-              <option key={stage} value={stage}>
-                {stage}
-              </option>
-            ))}
-          </select>
-          <label htmlFor="category">Category</label>
-          <select
-            name="category"
-            id="category"
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-          >
-            <option value="">Select Category</option>
-
-            {categories.map((stage) => (
               <option key={stage} value={stage}>
                 {stage}
               </option>

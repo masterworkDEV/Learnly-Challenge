@@ -1,9 +1,9 @@
 import React from "react";
 
-const Buttons = ({ handleSubmit, handleRestart, checkedAnswer }) => {
+const Buttons = ({ handleSubmit, handleRestart, verifyAnswer }) => {
   return (
     <div className="buttons">
-      {checkedAnswer && (
+      {verifyAnswer && (
         <>
           <button onClick={handleRestart}>
             <i class="bx bx-rotate-left"></i>

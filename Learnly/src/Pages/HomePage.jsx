@@ -16,12 +16,16 @@ const HomePage = ({ handleDarkMode, darkMode }) => {
       </header>
       <main className="content">
         <div className="btns">
-          <button>
-            <Link to="/game-preference">Start Quiz</Link>
-          </button>
-          <button>
-            <Link>About Us</Link>
-          </button>
+          <Link to="/game-preference">
+            <button>Start Quiz</button>
+          </Link>
+          <Link>
+            <button>Library</button>
+          </Link>
+
+          <Link>
+            <button>About Us</button>
+          </Link>
         </div>
       </main>
     </>

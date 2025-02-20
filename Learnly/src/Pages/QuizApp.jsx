@@ -12,31 +12,31 @@ const QuizApp = ({
   selectedCategory,
   selectedDifficulty,
 }) => {
-  const [quiz, setQuiz] = useState([]);
+  const [newQuiz, setNewQuiz] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(1);
   const [selectedOption, setSelectedOption] = useState(null);
-  const [correctAnswer, setCorrectAnswer] = useState(false);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const [score, setScore] = useState(0);
-  const [checkedAnswer, setCheckedAnswer] = useState(false);
+  const [verifyAnswer, setVerifyAnswer] = useState(false);
   const [showResult, setShowResult] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(300); // 5 minutes in seconds
-
-  // API fetch logic
+  const [timeLeft, setTimeLeft] = useState(240); // 5 minutes in seconds
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchQuizes = async () => {
       try {
         const response = await axios.get(API_URL);
-        const data = await response.data.results.map((quiz) => {
-          return {
-            ...quiz,
-            type: selectedType,
-            category: selectedCategory,
-            difficulty: selectedDifficulty,
-          };
+        const filteredResult = await response.data.results.filter((item) => {
+          return item.difficulty
+            .toLowerCase()
+            .includes(
+              selectedDifficulty.toLowerCase(),
+              item.type.toLowerCase().includes(selectedType.toLowerCase())
+            );
         });
-        setQuiz(data);
+        setNewQuiz(filteredResult);
       } catch (err) {
         if (err.response) {
           console.log(err.message);
@@ -47,9 +47,8 @@ const QuizApp = ({
     };
 
     fetchQuizes();
-  }, [API_URL]);
+  }, [API_URL, selectedDifficulty, selectedType]);
 
-  //initiate timer
   useEffect(() => {
     let timer;
 
@@ -66,46 +65,43 @@ const QuizApp = ({
 
   // Functions
   const handleOptionChange = (option) => {
-    setSelectedOption(option);
-    setCheckedAnswer(true);
+    if (option) {
+      setSelectedOption(option);
+      setVerifyAnswer(true);
+    }
 
-    setTimeout(() => {
-      if (option !== quiz[currentQuestion].correct_answer) {
-        setCorrectAnswer(false);
-      } else {
-        setCorrectAnswer(true);
+    if (selectedOption) {
+      alert("you already pick an option");
+      setSelectedOption(null);
+      setScore(score);
+      return false;
+    }
 
-        setTimeout(() => {
-          setCorrectAnswer(false);
-        }, 1500);
-      }
-    }, 500);
+    return true;
   };
   const handleSubmit = () => {
-    setCheckedAnswer(true); // Set user has answered
+    setVerifyAnswer(true); // Set user has answered
 
-    if (selectedOption === quiz[currentQuestion].correct_answer) {
+    if (selectedOption === newQuiz[currentQuestion].correct_answer) {
       setScore(score + 30);
     }
 
     // Move to the next question after a delay (whether correct or incorrect)
-    setTimeout(() => {
-      if (currentQuestion < quiz.length - 1) {
-        setCurrentQuestion(currentQuestion + 1);
-        setSelectedOption(null);
-        setCheckedAnswer(false); // Reset for the next question
-      } else {
-        setShowResult(true);
-        console.log("Quiz Finished");
-      }
-    }, 1500);
+
+    if (currentQuestion < newQuiz.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
+      setSelectedOption(null);
+      setVerifyAnswer(false); // Reset for the next question
+    } else {
+      setShowResult(true);
+    }
   };
 
   const handleRestart = () => {
     setCurrentQuestion(1);
     setSelectedOption(null);
     setScore(0);
-    setCheckedAnswer(false);
+    setVerifyAnswer(false);
     setShowResult(false);
     setTimeLeft(300); // Reset timer
   };
@@ -120,33 +116,48 @@ const QuizApp = ({
   };
 
   //Quiz object for eachquestion
-  const currentQuestionData = quiz[currentQuestion];
+  const currentQuestionData = newQuiz[currentQuestion];
 
   return (
     <>
-      <Link to="/" className="back-home">
-        <i class="bx bx-chevron-left"></i>
-        <span>Home</span>
-      </Link>
+      <nav className="game-nav">
+        <Link to="/" className="home">
+          <i class="bx bx-chevron-left"></i>
+          <span>Home</span>
+        </Link>
+        <div className="time">
+          <span>Time:{formatTime(timeLeft)} </span>
+          <i class="bx bx-timer"></i>
+        </div>
+      </nav>
 
       <main className="game">
-        <Header timeLeft={timeLeft} score={score} formatTime={formatTime} />
+        <Header score={score} />
 
         {showResult ? (
           <>
             <div className="result-modal">
-              <article className="result-commendation">
-                <h3 className="username">{userName}</h3>
-                <span className="points">
-                  <h3>Your score:</h3>
-                  <h3 className="score-point">({score})</h3>
+              <article className="result">
+                <span className="username">
+                  <h3>{userName}</h3>
                 </span>
-                <p>
-                  Congratulations on this one, we hope you do better in the
-                  future
-                </p>
+                <span className="points">
+                  <p>You score:</p>
+                  <h3 className="score-point">
+                    ({score}) out of ({newQuiz.length * 30})
+                  </h3>
+                </span>
+                {score >= 150 ? (
+                  <p>
+                    Congratulations on this one, we hope you do better in the
+                    future
+                  </p>
+                ) : (
+                  <p>
+                    Too bad!! kindly retry again and see if you'd score higher
+                  </p>
+                )}
                 <a href="/">Back home</a>
-                {/* can add more better compliments based on condition */}
               </article>
             </div>
             <div className="overlay"></div>
@@ -158,18 +169,22 @@ const QuizApp = ({
               currentQuestion={currentQuestion}
             />
             <Options
-              checkedAnswer={checkedAnswer}
+              verifyAnswer={verifyAnswer}
               selectedOption={selectedOption}
               currentQuestionData={currentQuestionData}
               handleOptionChange={handleOptionChange}
             />
-            {correctAnswer && (
-              <div className="correctAnswer">
-                congratulations <b> {selectedOption}</b> is the correct answer{" "}
+            {isCorrectAnswer && (
+              <div>
+                <p>
+                  Correct
+                  <b>{newQuiz[currentQuestion].correct_answer} </b>is the
+                  correct answer
+                </p>
               </div>
             )}
             <Buttons
-              checkedAnswer={checkedAnswer}
+              verifyAnswer={verifyAnswer}
               handleRestart={handleRestart}
               handleSubmit={handleSubmit}
             />
