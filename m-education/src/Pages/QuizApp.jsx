@@ -10,34 +10,26 @@ const QuizApp = ({}) => {
   const {
     headerState,
     setHeaderState,
+    userName,
     confirmExit,
     setConfirmExit,
     setCurrentQuestion,
     setSelectedOption,
+    score,
     setScore,
+    timeLeft,
+    setTimeLeft,
     setVerifyAnswer,
+    showResult,
+    setShowResult,
   } = useContext(DataContext);
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
-  const [showResult, setShowResult] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(300);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     setHeaderState(false);
   }, [headerState]);
-
-  useEffect(() => {
-    let timer;
-    if (!showResult && timeLeft > 0) {
-      timer = setInterval(() => {
-        setTimeLeft(timeLeft - 1);
-      }, 1000);
-    } else if (timeLeft === 0) {
-      setShowResult(true); // Automatically submit when time runs out
-    }
-
-    return () => clearInterval(timer);
-  }, [timeLeft, showResult]);
 
   const handleRestart = () => {
     setCurrentQuestion(1);
@@ -51,15 +43,6 @@ const QuizApp = ({}) => {
   };
   const handleContinueGame = () => {
     setConfirmExit(null);
-  };
-
-  const formatTime = (seconds) => {
-    const generateMinutes = Math.floor(seconds / 60);
-
-    const remainingSeconds = seconds % 60;
-    return `${generateMinutes}: ${
-      remainingSeconds < 10 ? "0" : ""
-    }${remainingSeconds}`;
   };
 
   return (
@@ -79,6 +62,44 @@ const QuizApp = ({}) => {
               </div>
             </div>
             <div className="overlay"></div>
+          </>
+        )}
+
+        {showResult && (
+          <>
+            <div className="showresult">
+              <div
+                className="progress-circle"
+                style={
+                  typeof score === "number" && {
+                    background: `conic-gradient(
+            #096a4df7 0%,
+            #096a4df7 ${score}%, 
+            #43b99758 ${score}%,
+            #43b99758 100% 
+          )`,
+                  }
+                }
+              >
+                <div className="progress-circle-inner">
+                  <div className="progress-text score">
+                    <span className="final-score text">Your Score</span>
+                    <span className="final-score score">{score}</span>
+                  </div>
+                </div>
+              </div>
+              <div className="message">
+                <span className="congrats">Congratulations</span>
+                <p className="name">
+                  Great job, <b>{userName}!</b> You Did it.
+                </p>
+              </div>
+
+              <div className="buttons">
+                <button>Share</button>
+                <button onClick={handleRestart}>Back Home</button>
+              </div>
+            </div>
           </>
         )}
       </main>

@@ -13,6 +13,9 @@ export const DataProvider = ({ children }) => {
   const [selectedOption, setSelectedOption] = useState(null);
   const [verifyAnswer, setVerifyAnswer] = useState(false);
   const [score, setScore] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(300);
+  const [showResult, setShowResult] = useState(false);
+
   const [confirmExit, setConfirmExit] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +27,7 @@ export const DataProvider = ({ children }) => {
       setIsLoading(true);
       try {
         const response = await axios.get(API_URL);
-        const filteredResult = await response.data.results.slice(0, 15);
+        const filteredResult = await response.data.results.slice(0, 20);
 
         setNewQuiz(filteredResult);
       } catch (err) {
@@ -63,6 +66,10 @@ export const DataProvider = ({ children }) => {
         setSelectedOption,
         score,
         setScore,
+        timeLeft,
+        setTimeLeft,
+        showResult,
+        setShowResult,
         confirmExit,
         setConfirmExit,
       }}

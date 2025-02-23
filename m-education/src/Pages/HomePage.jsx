@@ -22,7 +22,6 @@ const HomePage = () => {
           a professional, or simply curious, our Education Hub is designed to
           elevate your experience:
         </p>
-
         <Link className="btn" to="/quiz">
           <button>Play Now</button>
         </Link>
@@ -146,7 +145,7 @@ const HomePage = () => {
           </button>
           <span>E-Learn</span>
         </div>
-        <div className="collection">
+        <Link to="/quizes" className="collection">
           <button className="library">
             <svg
               fill="#000000"
@@ -173,7 +172,7 @@ const HomePage = () => {
             </svg>
           </button>
           <span>Quizes</span>
-        </div>
+        </Link>
       </div>
       <h4 className="recent-activity-title">Recent Activity</h4>
       <ul>

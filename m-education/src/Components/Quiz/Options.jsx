@@ -12,6 +12,7 @@ const Options = () => {
     setSelectedOption,
     setScore,
     score,
+    setShowResult,
     newQuiz,
   } = useContext(DataContext);
   const [allOptions, setAllOptions] = useState([]);
@@ -48,7 +49,7 @@ const Options = () => {
     setVerifyAnswer(true); // Set user has answered
 
     if (selectedOption === newQuiz[currentQuestion].correct_answer) {
-      setScore(score + 30);
+      setScore(score + 5);
     }
 
     if (currentQuestion < newQuiz.length - 1) {

@@ -1,6 +1,6 @@
 :root {
-  --primary-bg: #096a4df7;
-  --primary-bg-blend: #096a4d42;
+  --primary-bg: #1c503d;
+  --primary-bg-blend: #43b99758;
   --secondary-bg: #f1f1f1;
   --white-bg: #fff;
   --input-bg: #ddd;
@@ -9,7 +9,7 @@
   --font-size-xl: 1.5rem;
   --font-size: 1rem;
   --font-size-sm: 0.8rem;
-  --font-family: "poppins", serif;
+  --font-family: "Poppins", serif;
   --font-family-secondary: "Montserrat", serif;
 }
 
@@ -27,9 +27,7 @@ html {
   font-weight: 400;
   letter-spacing: 1px;
 }
-p {
-  font-size: var(--font-size-sm);
-}
+
 ul {
   list-style: none;
 }
@@ -115,7 +113,7 @@ ul {
 
 .content-card {
   background: linear-gradient(to left, rgb(0, 0, 0, 0.3), rgb(0, 0, 0, 0.6)),
-    url(../src/assets/images/first-card-bg.jpg);
+    url(../src/assets/images/first-card.jpg);
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -125,6 +123,9 @@ ul {
 
 .content-card h3 {
   font-family: var(--font-family-secondary);
+}
+.content-card p {
+  font-size: var(--font-size-sm);
 }
 
 .content-card h3,
@@ -252,9 +253,6 @@ ul {
   background: rgba(255, 68, 0, 0.161);
 }
 
-.activity-col > .result {
-}
-
 /* profile */
 
 .profile {
@@ -339,8 +337,7 @@ ul {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 50%;
-  margin-left: 1rem;
+  margin-inline: 1rem;
   margin-top: 1rem;
 }
 
@@ -350,35 +347,61 @@ ul {
   display: flex;
   align-items: center;
   color: var(--primary-bg);
+  font-size: var(--font-size-sm);
 }
 .nav-link > svg {
   width: 25px;
   height: 25px;
   fill: var(--primary-bg);
 }
+.header-game > .time-container {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.time-container > svg {
+  width: 25px;
+  height: 25px;
+}
+.time-container > .timeleft {
+  color: rgba(255, 0, 0, 0.998);
+}
 
 .quiz-content {
-  margin-top: 6rem;
+  margin-top: 8rem;
   padding-inline: 1rem;
   position: relative;
 }
 
-.quiz-content .score {
+.progress-circle {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: -15%;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: var(--white-bg);
-  position: absolute;
-  border: solid 0.5rem var(--darkgreen);
-  font-size: 2.5rem;
-  color: var(--darkgreen);
-  width: 100px;
-  height: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  top: -10%;
-  border-radius: 50%;
 }
+
+.progress-circle-inner {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.progress-text {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+/*  */
 
 .current-question {
   background: var(--white-bg);
@@ -434,7 +457,6 @@ ul {
 }
 .option.wrong > svg {
   fill: rgba(255, 0, 0, 0.804);
-  /* stroke: #fff; */
 }
 .option.correct {
   background: #43b99758;
@@ -453,7 +475,6 @@ ul {
   left: 50%;
   transform: translate(-50%, -50%);
   max-width: 850px;
-  /* width: 100%; */
   height: 10rem;
   padding: 1.2rem;
   border-radius: 0.5rem;
@@ -472,7 +493,7 @@ ul {
   justify-content: end;
   align-items: center;
   gap: 5rem;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 .exit-modal > h4 {
   margin-top: 1rem;
@@ -488,10 +509,79 @@ ul {
   }
 }
 .exit-btns > button:nth-last-of-type(1) {
-  background: var(--primary-bg-blend);
+  background: #43b99758;
 
   a {
     text-decoration: none;
-    color: black;
+    color: rgb(1, 93, 73);
   }
+}
+
+.showresult {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 100vh;
+  border-radius: 0.5rem;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--white-bg);
+  transition: all ease 0.4s;
+}
+
+.showresult .progress-circle {
+  top: 30%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  transform: translate(-50%, -50%);
+}
+.showresult .progress-circle-inner {
+  width: 160px;
+  height: 160px;
+}
+
+.showresult .progress-text > .final-score.text {
+  display: flex;
+  align-items: center;
+}
+.showresult .progress-text > .final-score.score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+}
+
+.message > .congrats {
+  font-size: var(--font-size-xl);
+  color: var(--primary-bg);
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.message > .name {
+  color: var(--primary-bg);
+}
+
+.showresult > .buttons {
+  position: fixed;
+  bottom: 10%;
+  width: 100%;
+  padding-inline: 1rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.showresult > .buttons > button {
+  padding: 1rem;
+  border: none;
+  background: var(--primary-bg);
+  font-size: var(--white-bg);
+  color: var(--white-bg);
 }

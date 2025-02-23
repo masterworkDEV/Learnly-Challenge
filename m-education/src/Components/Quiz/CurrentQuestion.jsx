@@ -12,7 +12,7 @@ const CurrentQuestion = () => {
   }, [currentQuestionData]);
   return (
     <article className="current-question">
-      <h4>{actveQuestion.question}</h4>
+      <p>{actveQuestion.question}</p>
     </article>
   );
 };
