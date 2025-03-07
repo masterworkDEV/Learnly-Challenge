@@ -1,25 +1,32 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import DataContext from "../Context/DataContext";
 
-import profileImage from "../assets/images/avatar.jpeg";
-
 const Header = () => {
-  const { headerState, setHeaderState, userName, score } =
+  const { headerState, setHeaderState, userName, userProfilePicture, score } =
     useContext(DataContext);
+  const [userProfileMenu, setUserProfileMenu] = useState(false);
+
+  const toggleUserProfileMenu = () => {
+    setUserProfileMenu(!userProfileMenu);
+  };
+
+  const handleExitMenu = () => {
+    setUserProfileMenu(!userProfileMenu);
+  };
   return (
     <>
       {headerState && (
         <header className="header">
           <div className="header-wrapper">
-            <div className="avatar-wrapper">
+            <div className="avatar-wrapper" onClick={toggleUserProfileMenu}>
               <img
-                src={profileImage}
+                src={userProfilePicture}
                 alt="../assets/images/avatar.jpeg"
                 className="avatar"
               />
               <div>
-                <h4 className="profile-name">{userName}</h4>
-                <h4>ID: 5234</h4>
+                <h5 className="profile-name">{userName}</h5>
+                <h5>ID: 5234</h5>
               </div>
             </div>
             <div className="points">
@@ -65,6 +72,33 @@ const Header = () => {
             </div>
           </div>
         </header>
+      )}
+      {userProfileMenu && (
+        <>
+          <div className="user-menu">
+            <button className="exit-menu" onClick={handleExitMenu}>
+              <svg
+                viewBox="0 0 64 64"
+                xmlns="http://www.w3.org/2000/svg"
+                stroke-width="3"
+                stroke="#000000"
+                fill="none"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <line x1="8.06" y1="8.06" x2="55.41" y2="55.94"></line>
+                  <line x1="55.94" y1="8.06" x2="8.59" y2="55.94"></line>
+                </g>
+              </svg>
+            </button>
+          </div>
+          <div className="overlay"></div>
+        </>
       )}
     </>
   );

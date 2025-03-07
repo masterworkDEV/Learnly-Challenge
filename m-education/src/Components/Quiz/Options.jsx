@@ -12,6 +12,8 @@ const Options = () => {
     setSelectedOption,
     setScore,
     score,
+    setIsCorrectAnswer,
+    setIsWrongAnswer,
     setShowResult,
     newQuiz,
   } = useContext(DataContext);
@@ -29,12 +31,24 @@ const Options = () => {
     }
   }, [currentQuestionData]);
 
-  // Functions
   const handleOptionChange = (option) => {
     setSelectedOption(option);
     setVerifyAnswer(true);
-    console.log(option);
+    if (option === currentQuestionData.correct_answer) {
+      setIsCorrectAnswer(true);
+      setIsWrongAnswer(false);
+      setTimeout(() => {
+        setIsCorrectAnswer(false);
+      }, 1500);
+    } else {
+      setIsWrongAnswer(true);
+      setIsCorrectAnswer(false);
+      setTimeout(() => {
+        setIsWrongAnswer(false);
+      }, 1500);
+    }
 
+    // if use select an option. they only get to select once
     if (selectedOption) {
       alert("you already pick an option");
       setSelectedOption(null);
@@ -61,6 +75,7 @@ const Options = () => {
       console.log("finished");
     }
   };
+
   return (
     <form
       className="quiz-form"
@@ -140,7 +155,13 @@ const Options = () => {
           </li>
         ))}
       </ul>
-      <button type="submit">Next</button>
+      {newQuiz.length ? (
+        <button type="submit">Next</button>
+      ) : (
+        <button onClick={() => (window.location.href = "/user-profile")}>
+          Go bak home
+        </button>
+      )}
     </form>
   );
 };

@@ -5,17 +5,26 @@ const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
   const [headerState, setHeaderState] = useState(true);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedNumbersOfQuestion, setSelectedNumbersOfQuestion] = useState(0);
   const [newQuiz, setNewQuiz] = useState([]);
   const [userName, setUserName] = useState(
-    "" || JSON.parse(localStorage.getItem("username"))
+    JSON.parse(localStorage.getItem("username")) || ""
   );
-  const [currentQuestion, setCurrentQuestion] = useState(1);
+  const [userGender, setUserGender] = useState(
+    JSON.parse(localStorage.getItem("gender")) || ""
+  );
+  const [userProfilePicture, setUserProfilePicture] = useState(
+    JSON.parse(localStorage.getItem("profilePicture")) || null
+  );
+  const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [verifyAnswer, setVerifyAnswer] = useState(false);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(300);
+  const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
+  const [isWrongAnswer, setIsWrongAnswer] = useState(false);
   const [showResult, setShowResult] = useState(false);
-
   const [confirmExit, setConfirmExit] = useState(null);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -27,8 +36,19 @@ export const DataProvider = ({ children }) => {
       setIsLoading(true);
       try {
         const response = await axios.get(API_URL);
-        const filteredResult = await response.data.results.slice(0, 20);
+        const filteredResult = await response.data.results
+          .filter((item) => {
+            if (item.length > 5) {
+              return item.category
+                .toLowerCase()
+                .includes(selectedCategory.toLowerCase());
+            } else {
+              return item;
+            }
+          })
+          .slice(0, selectedNumbersOfQuestion);
 
+        console.log(filteredResult);
         setNewQuiz(filteredResult);
       } catch (err) {
         if (err.response) {
@@ -43,7 +63,7 @@ export const DataProvider = ({ children }) => {
       }
     };
     fetchQuizes();
-  }, [API_URL]);
+  }, [API_URL, selectedCategory, selectedNumbersOfQuestion]);
 
   //Quiz object for each question
   const currentQuestionData = newQuiz[currentQuestion];
@@ -55,6 +75,14 @@ export const DataProvider = ({ children }) => {
         setHeaderState,
         userName,
         setUserName,
+        userProfilePicture,
+        setUserProfilePicture,
+        userGender,
+        setUserGender,
+        selectedCategory,
+        setSelectedCategory,
+        selectedNumbersOfQuestion,
+        setSelectedNumbersOfQuestion,
         newQuiz,
         setNewQuiz,
         currentQuestionData,
@@ -68,6 +96,10 @@ export const DataProvider = ({ children }) => {
         setScore,
         timeLeft,
         setTimeLeft,
+        isCorrectAnswer,
+        setIsCorrectAnswer,
+        isWrongAnswer,
+        setIsWrongAnswer,
         showResult,
         setShowResult,
         confirmExit,
