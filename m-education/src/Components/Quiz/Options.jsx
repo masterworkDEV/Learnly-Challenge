@@ -1,5 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import DataContext from "../../Context/DataContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 
 const Options = () => {
   const {
@@ -47,7 +49,6 @@ const Options = () => {
         setIsWrongAnswer(false);
       }, 1500);
     }
-
     // if use select an option. they only get to select once
     if (selectedOption) {
       alert("you already pick an option");
@@ -60,7 +61,7 @@ const Options = () => {
   };
 
   const handleSubmit = () => {
-    setVerifyAnswer(true); // Set user has answered
+    setVerifyAnswer(true);
 
     if (selectedOption === newQuiz[currentQuestion].correct_answer) {
       setScore(score + 5);
@@ -69,10 +70,9 @@ const Options = () => {
     if (currentQuestion < newQuiz.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
       setSelectedOption(null);
-      setVerifyAnswer(false); // Reset for the next question
+      setVerifyAnswer(false);
     } else {
       setShowResult(true);
-      console.log("finished");
     }
   };
 
@@ -100,34 +100,10 @@ const Options = () => {
           >
             <h4 htmlFor="option">{option}</h4>
             {selectedOption === option ? (
-              <svg
-                fill="none"
-                height="200px"
-                width="200px"
-                version="1.1"
-                id="Layer_1"
-                xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink"
-                viewBox="0 0 512 512"
-                xml:space="preserve"
-              >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  {" "}
-                  <g>
-                    {" "}
-                    <g>
-                      {" "}
-                      <path d="M256,0C114.837,0,0,114.843,0,256s114.837,256,256,256s256-114.843,256-256S397.163,0,256,0z M376.239,227.501 L257.348,346.391c-13.043,13.043-34.174,13.044-47.218,0l-68.804-68.804c-13.044-13.038-13.044-34.179,0-47.218 c13.044-13.044,34.174-13.044,47.218,0l45.195,45.19l95.282-95.278c13.044-13.044,34.174-13.044,47.218,0 C389.283,193.321,389.283,214.462,376.239,227.501z"></path>{" "}
-                    </g>{" "}
-                  </g>{" "}
-                </g>
-              </svg>
+              <FontAwesomeIcon
+                icon={faCheckCircle}
+                color="rgba(255, 0, 0, 0.804)"
+              />
             ) : (
               <svg
                 viewBox="0 0 24 24"

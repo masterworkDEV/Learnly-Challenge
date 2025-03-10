@@ -102,18 +102,9 @@ const Result = () => {
     setVerifyAnswer,
     setTimeLeft,
     setConfirmExit,
+    handleActivityLog,
   } = useContext(DataContext);
 
-  const handleRestart = () => {
-    setCurrentQuestion(1);
-    setSelectedOption(null);
-    setScore(0);
-    setVerifyAnswer(false);
-    setShowResult(false);
-    setTimeLeft(300);
-    setConfirmExit(null);
-    window.location.href = "/user-profile";
-  };
   return (
     <div className="showresult">
       <div
@@ -147,7 +138,7 @@ const Result = () => {
 
       <div className="buttons">
         <button>Share</button>
-        <button onClick={handleRestart}>Back Home</button>
+        <button onClick={handleActivityLog}>Back Home</button>
       </div>
     </div>
   );

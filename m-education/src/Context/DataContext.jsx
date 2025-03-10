@@ -26,6 +26,9 @@ export const DataProvider = ({ children }) => {
   const [isWrongAnswer, setIsWrongAnswer] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [confirmExit, setConfirmExit] = useState(null);
+  const [recentActivities, setRecentActivities] = useState(
+    JSON.parse(localStorage.getItem("activities")) || []
+  );
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -68,6 +71,23 @@ export const DataProvider = ({ children }) => {
   //Quiz object for each question
   const currentQuestionData = newQuiz[currentQuestion];
 
+  const addNewActivity = (newActivity) => {
+    const activities = [...recentActivities, newActivity];
+    setRecentActivities(activities);
+    localStorage.setItem("activities", JSON.stringify(activities));
+  };
+
+  const handleActivityLog = () => {
+    addNewActivity({
+      type: "Quiz",
+      title: selectedCategory,
+      questions: selectedNumbersOfQuestion,
+      score: `${score}/${newQuiz.length * 5}`,
+      date: new Date().toLocaleDateString(),
+    });
+    window.location.href = "/user-profile";
+  };
+
   return (
     <DataContext.Provider
       value={{
@@ -104,6 +124,8 @@ export const DataProvider = ({ children }) => {
         setShowResult,
         confirmExit,
         setConfirmExit,
+        handleActivityLog,
+        recentActivities,
       }}
     >
       {children}

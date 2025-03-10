@@ -1,10 +1,12 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import DataContext from "../Context/DataContext";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import Header from "../Components/Home/Header";
 
 const HomePage = () => {
-  const { headerState, setHeaderState } = useContext(DataContext);
+  const { headerState, setHeaderState, recentActivities } =
+    useContext(DataContext);
+
   const [articles, setArticles] = useState([
     {
       image: "/src/assets/images/first-card.jpg", // Corrected relative path
@@ -44,6 +46,11 @@ const HomePage = () => {
       backgroundColor: "#e8f5e9",
       icon: "bx bx-library",
     },
+    {
+      link: "/saved-books",
+      category: "Saved books",
+      icon: "bx bx-book",
+    },
   ]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -60,60 +67,74 @@ const HomePage = () => {
   }, [currentIndex]);
 
   return (
-    <main className="home">
-      {articles.length && (
-        <article className="article" key={currentIndex}>
-          <img
-            src={articles[currentIndex].image}
-            alt={articles[currentIndex].alt}
-          />
+    <>
+      <Header />
 
-          <div className="content-card">
-            <h3>{articles[currentIndex].title}</h3>
-            <p>{articles[currentIndex].description}</p>
-            <Link
-              className="btn"
-              to={articles[currentIndex].link}
-              style={{ color: articles[currentIndex].backgroundColor }}
-            >
-              <button>{articles[currentIndex].buttonText}</button>
-            </Link>
-          </div>
-        </article>
-      )}
-      <h4 className="collection-title">Category</h4>
-      <div className="collections">
-        {articles.length &&
-          articles.map((article) => (
-            <Link to={article.link} className="link">
-              <button className="collection">
-                <i class={article.icon}></i>
-              </button>
-              <span className="collection-name">{article.category}</span>
-            </Link>
-          ))}
-      </div>
+      <main className="home">
+        {articles.length && (
+          <article className="article" key={currentIndex}>
+            <img
+              src={articles[currentIndex].image}
+              alt={articles[currentIndex].alt}
+            />
 
-      <h4 className="recent-activity-title">Recent Activity</h4>
-      <ul>
-        <li className="recent-activity-list">
-          <div className="activity-col">
-            <div></div>
-            <span>
-              <p>
-                <strong>Books</strong>
-              </p>
-              <p>30 Question</p>
-            </span>
-          </div>
-          <div className="activity-col result">
-            <div className="result">
-              <span>26/30</span>
+            <div className="content-card">
+              <h3>{articles[currentIndex].title}</h3>
+              <p>{articles[currentIndex].description}</p>
+              <Link
+                className="btn"
+                to={articles[currentIndex].link}
+                style={{ color: articles[currentIndex].backgroundColor }}
+              >
+                <button>{articles[currentIndex].buttonText}</button>
+              </Link>
             </div>
-          </div>
-        </li>
-      </ul>
-    </main>
+          </article>
+        )}
+        <h4 className="collection-title">Category</h4>
+        <div className="collections">
+          {articles.length &&
+            articles.map((article) => (
+              <Link to={article.link} className="link">
+                <button className="collection">
+                  <i class={article.icon}></i>
+                </button>
+                <span className="collection-name">{article.category}</span>
+              </Link>
+            ))}
+        </div>
+
+        <h4 className="recent-activity-title">Recent Activity</h4>
+        <ul>
+          {recentActivities.length ? (
+            recentActivities.map((activity, index) => (
+              <li className="recent-activity-list" key={index}>
+                <div className="activity-col">
+                  <div></div>
+                  <span>
+                    <p>
+                      <strong>{activity.title}</strong>
+                    </p>
+                    <p>
+                      {activity.questions
+                        ? `${activity.questions} Questions`
+                        : `${activity.pages} Pages`}
+                    </p>
+                  </span>
+                </div>
+                <div className="activity-col result">
+                  <div className="result">
+                    <span>{activity.score}</span>
+                  </div>
+                </div>
+              </li>
+            ))
+          ) : (
+            <p>No activity yet!</p>
+          )}
+        </ul>
+      </main>
+    </>
   );
 };
 
