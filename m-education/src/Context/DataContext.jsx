@@ -26,6 +26,8 @@ export const DataProvider = ({ children }) => {
   const [isWrongAnswer, setIsWrongAnswer] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [confirmExit, setConfirmExit] = useState(null);
+
+  // activity logs
   const [recentActivities, setRecentActivities] = useState(
     JSON.parse(localStorage.getItem("activities")) || []
   );
@@ -71,12 +73,14 @@ export const DataProvider = ({ children }) => {
   //Quiz object for each question
   const currentQuestionData = newQuiz[currentQuestion];
 
+  // set new activity
   const addNewActivity = (newActivity) => {
     const activities = [...recentActivities, newActivity];
     setRecentActivities(activities);
     localStorage.setItem("activities", JSON.stringify(activities));
   };
 
+  //call addNewActivity after user submits.
   const handleActivityLog = () => {
     addNewActivity({
       type: "Quiz",

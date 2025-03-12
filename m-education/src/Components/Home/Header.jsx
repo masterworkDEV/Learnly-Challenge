@@ -49,7 +49,7 @@ const Header = () => {
       )}
       {userProfileMenu && (
         <>
-          <div className="user-menu">
+          <div className="user-menu animate__animated animate__fadeInLeft">
             <button className="exit-menu" onClick={handleExitMenu}>
               <FontAwesomeIcon icon={faTimes} size="xl" />
             </button>

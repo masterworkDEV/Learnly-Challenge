@@ -6,6 +6,8 @@ import Header from "../Components/Home/Header";
 const HomePage = () => {
   const { headerState, setHeaderState, recentActivities } =
     useContext(DataContext);
+  const [initialActivity, setInitialActivity] = useState(0);
+  const [activityPerPage, setActivityPerPage] = useState(6);
 
   const [articles, setArticles] = useState([
     {
@@ -46,11 +48,6 @@ const HomePage = () => {
       backgroundColor: "#e8f5e9",
       icon: "bx bx-library",
     },
-    {
-      link: "/saved-books",
-      category: "Saved books",
-      icon: "bx bx-book",
-    },
   ]);
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -71,26 +68,53 @@ const HomePage = () => {
       <Header />
 
       <main className="home">
-        {articles.length && (
-          <article className="article" key={currentIndex}>
-            <img
-              src={articles[currentIndex].image}
-              alt={articles[currentIndex].alt}
-            />
+        <article className="article">
+          <img src={articles[0].image} alt={articles[currentIndex].alt} />
+          <div className="content-card">
+            <h3>{articles[0].title}</h3>
+            <p>{articles[0].description}</p>
+            <Link
+              className="btn"
+              to={articles[0].link}
+              style={{ color: articles[0].backgroundColor }}
+            >
+              <button>{articles[currentIndex].buttonText}</button>
+            </Link>
+          </div>
 
-            <div className="content-card">
-              <h3>{articles[currentIndex].title}</h3>
-              <p>{articles[currentIndex].description}</p>
-              <Link
-                className="btn"
-                to={articles[currentIndex].link}
-                style={{ color: articles[currentIndex].backgroundColor }}
-              >
-                <button>{articles[currentIndex].buttonText}</button>
-              </Link>
-            </div>
-          </article>
-        )}
+          {articles.length && (
+            <article
+              className="
+            article-inner
+
+         animate__animated 
+
+
+         animate__fadeInLeftBig
+
+            "
+              key={currentIndex}
+            >
+              <img
+                src={articles[currentIndex].image}
+                alt={articles[currentIndex].alt}
+              />
+
+              <div className="content-card">
+                <h3>{articles[currentIndex].title}</h3>
+                <p>{articles[currentIndex].description}</p>
+                <Link
+                  className="btn"
+                  to={articles[currentIndex].link}
+                  style={{ color: articles[currentIndex].backgroundColor }}
+                >
+                  <button>{articles[currentIndex].buttonText}</button>
+                </Link>
+              </div>
+            </article>
+          )}
+        </article>
+
         <h4 className="collection-title">Category</h4>
         <div className="collections">
           {articles.length &&
@@ -107,28 +131,31 @@ const HomePage = () => {
         <h4 className="recent-activity-title">Recent Activity</h4>
         <ul>
           {recentActivities.length ? (
-            recentActivities.map((activity, index) => (
-              <li className="recent-activity-list" key={index}>
-                <div className="activity-col">
-                  <div></div>
-                  <span>
-                    <p>
-                      <strong>{activity.title}</strong>
-                    </p>
-                    <p>
-                      {activity.questions
-                        ? `${activity.questions} Questions`
-                        : `${activity.pages} Pages`}
-                    </p>
-                  </span>
-                </div>
-                <div className="activity-col result">
-                  <div className="result">
-                    <span>{activity.score}</span>
+            [...recentActivities]
+              .reverse()
+              .slice(initialActivity, activityPerPage)
+              .map((activity, index) => (
+                <li className="recent-activity-list" key={index}>
+                  <div className="activity-col">
+                    <div></div>
+                    <span>
+                      <p>
+                        <strong>{activity.title}</strong>
+                      </p>
+                      <p>
+                        {activity.questions
+                          ? `${activity.questions} Questions`
+                          : `${activity.pages} Pages`}
+                      </p>
+                    </span>
                   </div>
-                </div>
-              </li>
-            ))
+                  <div className="activity-col result">
+                    <div className="result">
+                      <span>{activity.score}</span>
+                    </div>
+                  </div>
+                </li>
+              ))
           ) : (
             <p>No activity yet!</p>
           )}
