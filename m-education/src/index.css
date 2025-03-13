@@ -363,25 +363,6 @@ input {
 
 /* ends here */
 
-/* e-learn */
-
-.e-learn {
-  margin-top: 6rem;
-  margin-inline: 1rem;
-}
-
-.video-container {
-  width: 100%;
-  height: 100%;
-}
-
-.video-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
 /* profile */
 
 .profile {
@@ -394,7 +375,13 @@ input {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background: url("https://img.freepik.com/free-photo/two-white-chalk-blackboard_1098-3898.jpg?t=st=1741774421~exp=1741778021~hmac=2d981564bc0f2736f2285903d3eaf112c94e0f7cb4ef422ea7272b683bc8cb27&w=1060");
+  background: linear-gradient(
+      to left,
+      var(--primary-bg),
+      var(--primary-bg-blend)
+    ),
+    url("https://img.freepik.com/free-photo/two-white-chalk-blackboard_1098-3898.jpg?t=st=1741774421~exp=1741778021~hmac=2d981564bc0f2736f2285903d3eaf112c94e0f7cb4ef422ea7272b683bc8cb27&w=1060");
+  /* background:  */
 }
 
 .profile > .logo {
@@ -502,7 +489,7 @@ select {
 }
 
 .quizes {
-  margin-top: 25rem;
+  margin-top: 24rem;
   height: 100vh;
   position: relative;
 }
@@ -510,9 +497,9 @@ select {
 .quizes > .category-list {
   display: flex;
   justify-content: center;
-  gap: 2rem;
-  margin-inline: 1rem;
   flex-direction: column;
+  gap: 1rem;
+  margin-inline: 1rem;
 }
 
 .quizes > .category-list > .list {
@@ -663,7 +650,7 @@ select {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 14rem;
+  height: 12rem;
   padding: 1rem;
   border-radius: 0.5rem;
   box-shadow: 2px 15px 20px #ddd;
@@ -676,7 +663,7 @@ select {
 
 .quiz-form {
   width: 100%;
-  margin-top: 2rem;
+  margin-top: 1.5rem;
 }
 .option {
   background: var(--white-bg);
@@ -686,7 +673,7 @@ select {
   padding-inline: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   box-shadow: 1px 10px 20px #dddddd69;
 }
 
@@ -694,7 +681,7 @@ select {
   width: 100%;
   padding: 1rem;
   border-radius: 0.5rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   background: rgb(1, 93, 73);
   color: var(--text-secondary);
   font-size: var(--font-size);
@@ -850,13 +837,13 @@ select {
 .showresult .progress-circle {
   top: 30%;
   left: 50%;
-  width: 200px;
-  height: 200px;
+  width: 160px;
+  height: 160px;
   transform: translate(-50%, -50%);
 }
 .showresult .progress-circle-inner {
-  width: 160px;
-  height: 160px;
+  width: 120px;
+  height: 120px;
 }
 
 .showresult .progress-text > .final-score.text {
@@ -898,4 +885,37 @@ select {
   background: var(--primary-bg);
   font-size: var(--white-bg);
   color: var(--white-bg);
+}
+
+/* E-LEARN */
+
+.e-learn {
+  margin-top: 6rem;
+  margin-inline: 1rem;
+}
+
+.search-videos {
+  width: 100%;
+}
+.search-videos > .search-input {
+  width: 80%;
+  padding: 0.75rem;
+  border-top-left-radius: 0.3rem;
+  border-bottom-left-radius: 0.3rem;
+}
+.search-videos > .btn {
+  width: 20%;
+  padding: 0.75rem;
+  background: var(--primary-bg);
+  color: var(--text-secondary);
+  border-top-right-radius: 0.3rem;
+  border-bottom-right-radius: 0.3rem;
+}
+
+.video-container {
+  width: 100%;
+  height: 100%;
+  margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 }

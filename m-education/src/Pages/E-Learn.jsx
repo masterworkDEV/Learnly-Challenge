@@ -5,30 +5,64 @@ import axios from "axios";
 import YouTube from "react-youtube";
 
 function Elearn() {
+  const [search, setSearch] = useState("");
   const [videos, setVideos] = useState([]);
-  const API = "AIzaSyB0ym_IPaYlmwYxAdid-3D-7XF2ga4AyUc";
+  const [videoId, setVideoId] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+
+  const APIKEY = import.meta.env.VITE_YT_KEY;
+  const videoIds = import.meta.env.VITE_VIDEO_ID;
+  const displayURL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds}&key=${APIKEY}`;
 
   useEffect(() => {
-    const videoIds = "9OA757v4FAM,kqtD5dpn9C8,zOjov-2OZ0E, pTnEG_WGd2Q";
-    const url = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds}&key=${API}`;
-
+    setIsLoading(true);
+    setError(null);
     const fetchData = async () => {
       try {
-        const response = await axios.get(url);
+        const response = await axios.get(displayURL);
         setVideos(response.data.items);
         console.log(response.data.items);
       } catch (error) {
         console.log(error);
+        setError(`Error something went wrong ${error}`);
+      } finally {
+        setIsLoading(false);
+        setError(null);
       }
     };
     fetchData();
-  }, [API]);
+  }, [displayURL]);
+
+  const searchURL = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${encodeURIComponent(
+    search
+  )}&key=${APIKEY}`;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get(searchURL);
+      setVideos(response.data.items);
+      setVideoId(response.data.id.videoId);
+      console.log(response.data);
+      setSearch("");
+    } catch (error) {
+      console.log(`Couldn't find your search request ${error}`);
+      setError(`Error something went wrong ${error}`);
+    } finally {
+      setIsLoading(false);
+      setError(null);
+    }
+  };
+  console.log(videoId);
 
   const opts = {
     playerVars: {
       autoplay: 0,
       height: "300",
-      width: "300",
+      width: "460",
     },
   };
 
@@ -38,15 +72,23 @@ function Elearn() {
         <Header />
       </header>
       <main className="e-learn">
-        <form>
-          <label htmlFor="search">Search Videos</label>
-          <input type="text" placeholder="Search Videos" />
-          <button>Search</button>
+        <form className="search-videos" onSubmit={handleSubmit}>
+          <label htmlFor="search"></label>
+          <input
+            type="text"
+            placeholder="Search Videos On Youtube"
+            className="search-input"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button type="submit" role="search" className="btn">
+            Search
+          </button>
         </form>
         <article className="video-container">
           <ul>
             {videos.map((video) => (
-              <li key={video.id} className="video-list">
+              <li key={video.snippet.channel} className="video-list">
                 <YouTube videoId={video.id} opts={opts} className="video" />
                 <p>{video.snippet.title}</p>
               </li>

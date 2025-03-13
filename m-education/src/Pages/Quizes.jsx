@@ -2,12 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import DataContext from "../Context/DataContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, Link } from "react-router-dom";
-import {
-  faArrowAltCircleLeft,
-  faArrowLeft,
-  faBackward,
-  faLeftLong,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Quizes = () => {
   const {
@@ -53,7 +48,7 @@ const Quizes = () => {
         <div className="quizes-header-wrapper">
           <Link to="/user-profile">
             <nav className="quizes-nav">
-              <FontAwesomeIcon icon={faArrowLeft} color="white" />
+              <FontAwesomeIcon icon={faArrowLeft} color="white" size="xs" />
             </nav>
           </Link>
 
@@ -82,14 +77,15 @@ const Quizes = () => {
               <button onClick={handleCloseModal} className="close">
                 X
               </button>
-              <p>Kindly set questions from 1 -- 50</p>
+              <p>Kindly set questions from 10 -- 50</p>
               <input
                 type="number"
                 value={number}
                 onChange={(e) => setNumber(e.target.value)}
                 placeholder="Set number of questions"
-                minLength={10}
-                maxLength={50}
+                min="10"
+                max="50"
+                required
               />
               <button type="submit">Set Question</button>
             </form>
