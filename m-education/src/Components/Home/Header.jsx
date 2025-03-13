@@ -3,18 +3,27 @@ import DataContext from "../../Context/DataContext";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faBookBible,
   faDice,
   faMoneyBill,
-  faSchool,
   faSignOut,
   faTimes,
   faBook,
+  faHome,
+  faComputer,
+  faBookOpen,
 } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
   const { headerState, setHeaderState, userName, userProfilePicture, score } =
     useContext(DataContext);
+
+  const [listItems, setListItems] = useState([
+    { title: "Home", icon: faHome, link: "/user-profile" },
+    { title: "Quizes", icon: faDice, link: "/quizes" },
+    { title: "Library", icon: faBook, link: "/library" },
+    { title: "E-learn", icon: faComputer, link: "/E-learn" },
+    { title: "Dictionary", icon: faBookOpen, link: "/dictionary" },
+  ]);
   const [userProfileMenu, setUserProfileMenu] = useState(false);
 
   const toggleUserProfileMenu = () => {
@@ -49,7 +58,7 @@ const Header = () => {
       )}
       {userProfileMenu && (
         <>
-          <div className="user-menu animate__animated animate__fadeInLeft">
+          <div className="user-menu animate__animated animate__fadeInLeftBig">
             <button className="exit-menu" onClick={handleExitMenu}>
               <FontAwesomeIcon icon={faTimes} size="xl" />
             </button>
@@ -66,45 +75,18 @@ const Header = () => {
               </div>
               <nav className="user-nav">
                 <ul>
-                  <li>
-                    <FontAwesomeIcon
-                      icon={faDice}
-                      size="xl"
-                      className="icon"
-                      color="#2d6c55"
-                    />
-                    <Link to="/quizes">Quizes</Link>
-                  </li>
-                  <li>
-                    <FontAwesomeIcon
-                      icon={faBook}
-                      size="xl"
-                      className="icon"
-                      color="#2d6c55"
-                    />
-
-                    <Link to="/library">Library</Link>
-                  </li>
-                  <li>
-                    <FontAwesomeIcon
-                      icon={faBookBible}
-                      size="xl"
-                      className="icon"
-                      color="#2d6c55"
-                    />
-
-                    <Link to="/dictionary">Dictionary</Link>
-                  </li>
-                  <li>
-                    <FontAwesomeIcon
-                      icon={faSchool}
-                      size="xl"
-                      className="icon"
-                      color="#2d6c55"
-                    />
-
-                    <Link to="/E-learn">E-learn</Link>
-                  </li>
+                  {listItems.length &&
+                    listItems.map((list) => (
+                      <li>
+                        <FontAwesomeIcon
+                          icon={list.icon}
+                          size="xl"
+                          className="icon"
+                          color="#2d6c55"
+                        />
+                        <Link to={list.link}>{list.title}</Link>
+                      </li>
+                    ))}
                 </ul>
               </nav>
               <button onClick={() => (window.location.href = "/")}>
@@ -118,7 +100,7 @@ const Header = () => {
               </button>
             </div>
           </div>
-          <div className="overlay"></div>
+          <div className="overlay animate__animated animate__fadeInRightBig"></div>
         </>
       )}
     </>

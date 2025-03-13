@@ -4,7 +4,7 @@ import HomePage from "./HomePage";
 import Library from "./Library";
 import Books from "./Books";
 import SavedBooks from "./SavedBook";
-import ELearn from "./E-Learn";
+import Elearn from "./E-Learn";
 import Quizes from "./Quizes";
 import QuizApp from "./QuizApp";
 import MissingPage from "./MissingPage";
@@ -18,7 +18,7 @@ const Layout = () => {
       <Route path="/library" element={<Library />} />
       <Route path="/books" element={<Books />} />
       <Route path="/saved-books" element={<SavedBooks />} />
-      <Route path="/E-learn" element={<ELearn />} />
+      <Route path="/E-learn" element={<Elearn />} />
       <Route path="/quiz" element={<QuizApp />} />
       <Route path="/quiz-preference" element={<QuizPreference />} />
       <Route path="/quizes" element={<Quizes />} />

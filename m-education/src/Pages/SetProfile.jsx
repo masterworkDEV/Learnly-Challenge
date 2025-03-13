@@ -43,7 +43,7 @@ const SetProfile = ({}) => {
       // const imageURL = URL.createObjectURL(file);
       // setProfilePicture(imageURL);
 
-      // But for more efficient way....
+      // But here is an efficient way....
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfilePicture(reader.result);
