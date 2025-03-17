@@ -12,8 +12,8 @@ function Elearn() {
   const [error, setError] = useState(null);
 
   const APIKEY = import.meta.env.VITE_YT_KEY;
-  const videoIds = import.meta.env.VITE_VIDEO_ID;
-  const displayURL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoIds}&key=${APIKEY}`;
+
+  const displayURL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${APIKEY}`;
 
   useEffect(() => {
     setIsLoading(true);
@@ -22,7 +22,6 @@ function Elearn() {
       try {
         const response = await axios.get(displayURL);
         setVideos(response.data.items);
-        console.log(response.data.items);
       } catch (error) {
         console.log(error);
         setError(`Error something went wrong ${error}`);
@@ -44,9 +43,25 @@ function Elearn() {
     setError(null);
     try {
       const response = await axios.get(searchURL);
-      setVideos(response.data.items);
-      setVideoId(response.data.id.videoId);
-      console.log(response.data);
+      const videosData = response.data.items;
+      setVideos(videosData);
+
+      const videoIds = videosData
+        .map((item) => {
+          if (item.id.videoId) {
+            return item.id.videoId;
+          } else if (item.id.playlistId) {
+            return item.id.playlistId;
+          } else if (item.id.channelId) {
+            return item.id.channelId;
+          }
+          setError("No video was found");
+          return null;
+        })
+        .filter((id) => id !== null);
+
+      setVideoId(videoIds);
+
       setSearch("");
     } catch (error) {
       console.log(`Couldn't find your search request ${error}`);
@@ -56,7 +71,6 @@ function Elearn() {
       setError(null);
     }
   };
-  console.log(videoId);
 
   const opts = {
     playerVars: {
@@ -85,14 +99,22 @@ function Elearn() {
             Search
           </button>
         </form>
+
         <article className="video-container">
+          {isLoading && !error && <p>Loading please wait...</p>}
+          {error && <p>Something went wrong ${error}</p>}
+
           <ul>
-            {videos.map((video) => (
-              <li key={video.snippet.channel} className="video-list">
-                <YouTube videoId={video.id} opts={opts} className="video" />
-                <p>{video.snippet.title}</p>
-              </li>
-            ))}
+            {videos.length ? (
+              videos.map((video) => (
+                <li key={video.snippet.channel} className="video-list">
+                  <YouTube videoId={video.id} opts={opts} className="video" />
+                  <p>{video.snippet.title}</p>
+                </li>
+              ))
+            ) : (
+              <p className="no-videos">No Videos, kindly search using the search bar</p>
+            )}
           </ul>
         </article>
       </main>
