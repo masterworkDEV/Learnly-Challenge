@@ -45,8 +45,8 @@ const Header = () => {
                 className="avatar"
               />
               <div>
-                <h5 className="profile-name">{userName}</h5>
-                <h5>ID: 5234</h5>
+                <h6 className="profile-name">{userName}</h6>
+                <h6>ID: 5234</h6>
               </div>
             </div>
             <div className="points">
@@ -70,7 +70,7 @@ const Header = () => {
                   alt={userName}
                   className="profile-picture"
                 />
-                <h3>{userName}</h3>
+                <h4>{userName}</h4>
                 <small>Nola points {score}pts</small>
               </div>
               <nav className="user-nav">

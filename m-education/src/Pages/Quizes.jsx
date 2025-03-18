@@ -43,12 +43,12 @@ const Quizes = () => {
     setHeaderState(false);
   }, [headerState]);
   return (
-    <>
+    <div className="quizes">
       <header className="quizes-header">
         <div className="quizes-header-wrapper">
           <Link to="/user-profile">
             <nav className="quizes-nav">
-              <FontAwesomeIcon icon={faArrowLeft} color="white" size="xs" />
+              <FontAwesomeIcon icon={faArrowLeft} color="white" size="1x" />
             </nav>
           </Link>
 
@@ -56,7 +56,7 @@ const Quizes = () => {
         </div>
       </header>
 
-      <main className="quizes">
+      <main className="quiz-category">
         <ul className="category-list">
           {category.length &&
             category.map((cat) => {
@@ -93,7 +93,7 @@ const Quizes = () => {
           </>
         )}
       </main>
-    </>
+    </div>
   );
 };
 

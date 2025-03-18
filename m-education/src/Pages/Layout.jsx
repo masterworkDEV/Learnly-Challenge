@@ -3,7 +3,7 @@ import SetProfile from "./SetProfile";
 import HomePage from "./HomePage";
 import Library from "./Library";
 import Books from "./Books";
-import SavedBooks from "./SavedBook";
+import SavedCourses from "./SavedCourses";
 import Elearn from "./E-Learn";
 import Quizes from "./Quizes";
 import QuizApp from "./QuizApp";
@@ -17,7 +17,7 @@ const Layout = () => {
       <Route path="/user-profile" element={<HomePage />} />
       <Route path="/library" element={<Library />} />
       <Route path="/books" element={<Books />} />
-      <Route path="/saved-books" element={<SavedBooks />} />
+      <Route path="/saved-courses" element={<SavedCourses />} />
       <Route path="/E-learn" element={<Elearn />} />
       <Route path="/quiz" element={<QuizApp />} />
       <Route path="/quiz-preference" element={<QuizPreference />} />

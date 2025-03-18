@@ -49,6 +49,18 @@ const HomePage = () => {
       backgroundColor: "#e8f5e9",
       icon: "bx bx-library",
     },
+    {
+      image: "src/assets/images/first-card.jpg", // Replace with an appropriate image URL
+      alt: "Saved Courses Collection",
+      title: "Your Personalized Learning Journey",
+      description:
+        "Access your saved courses anytime, anywhere. Continue your learning at your own pace. Your saved courses are always at your fingertips.",
+      buttonText: "View Saved",
+      link: "/saved-courses",
+      category: "Saved",
+      backgroundColor: "#f0f8ff",
+      icon: "bx bx-bookmark-heart",
+    },
   ]);
 
   const [currentIndex, setCurrentIndex] = useState(0);

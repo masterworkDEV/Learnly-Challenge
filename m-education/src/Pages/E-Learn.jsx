@@ -1,89 +1,101 @@
-import { useEffect, useState } from "react";
-import Header from "../Components/Home/Header";
-
+import { useEffect, useState, useCallback, useContext } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import YouTube from "react-youtube";
+import { faHeart, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import DataContext from "../Context/DataContext";
 
 function Elearn() {
+  const { isLiked } = useContext(DataContext);
   const [search, setSearch] = useState("");
   const [videos, setVideos] = useState([]);
-  const [videoId, setVideoId] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
   const APIKEY = import.meta.env.VITE_YT_KEY;
-
-  const displayURL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videoId}&key=${APIKEY}`;
+  const ids = import.meta.env.VITE_VIDEO_ID;
 
   useEffect(() => {
-    setIsLoading(true);
-    setError(null);
     const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
+        const displayURL = `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${ids}&key=${APIKEY}`;
         const response = await axios.get(displayURL);
         setVideos(response.data.items);
-      } catch (error) {
-        console.log(error);
-        setError(`Error something went wrong ${error}`);
+      } catch (err) {
+        console.error("Error fetching initial videos:", err);
+        setError("Failed to load initial videos.");
       } finally {
         setIsLoading(false);
-        setError(null);
       }
     };
     fetchData();
-  }, [displayURL]);
+  }, [APIKEY, ids]);
 
-  const searchURL = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${encodeURIComponent(
-    search
-  )}&key=${APIKEY}`;
+  const debouncedSearch = useCallback(async () => {
+    if (!search.trim()) return;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
     setIsLoading(true);
     setError(null);
     try {
+      const searchURL = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=5&q=${encodeURIComponent(
+        search
+      )}&key=${APIKEY}`;
       const response = await axios.get(searchURL);
-      const videosData = response.data.items;
-      setVideos(videosData);
-
-      const videoIds = videosData
-        .map((item) => {
-          if (item.id.videoId) {
-            return item.id.videoId;
-          } else if (item.id.playlistId) {
-            return item.id.playlistId;
-          } else if (item.id.channelId) {
-            return item.id.channelId;
-          }
-          setError("No video was found");
-          return null;
-        })
-        .filter((id) => id !== null);
-
-      setVideoId(videoIds);
-
-      setSearch("");
-    } catch (error) {
-      console.log(`Couldn't find your search request ${error}`);
-      setError(`Error something went wrong ${error}`);
+      setVideos(response.data.items);
+    } catch (err) {
+      console.error("Error searching videos:", err);
+      setError("Failed to search videos.");
     } finally {
       setIsLoading(false);
-      setError(null);
     }
+  }, [search, APIKEY]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    debouncedSearch();
   };
 
   const opts = {
+    height: "390",
+    width: "640",
     playerVars: {
       autoplay: 0,
-      height: "300",
-      width: "460",
+      controls: 1,
+      rel: 0,
     },
+  };
+
+  const handleSavedVideos = async (video) => {
+    if (video.id !== null) {
+      try {
+        const checkStatus = isLiked.find((item) => {
+          if (item.id.videoId === video.id.videoId) {
+            return item;
+          }
+        });
+        (await checkStatus) ? false : isLiked.push({ ...video });
+        localStorage.setItem("liked", JSON.stringify(isLiked));
+      } catch (error) {
+        alert("Error something went wrong, cannot save video");
+      }
+    }
   };
 
   return (
     <>
-      <header>
-        <Header />
+      <header className="quizes-header">
+        <div className="quizes-header-wrapper">
+          <Link to="/user-profile">
+            <nav className="quizes-nav">
+              <FontAwesomeIcon icon={faArrowLeft} color="#18493e" size="1x" />
+            </nav>
+          </Link>
+
+          <span>E Learn</span>
+        </div>
       </header>
       <main className="e-learn">
         <form className="search-videos" onSubmit={handleSubmit}>
@@ -101,25 +113,51 @@ function Elearn() {
         </form>
 
         <article className="video-container">
-          {isLoading && !error && <p>Loading please wait...</p>}
-          {error && <p>Something went wrong ${error}</p>}
+          {isLoading && <p className="text-center">Loading please wait...</p>}
+          {error && <p className="text-center">{error}</p>}
 
-          <ul>
-            {videos.length ? (
-              videos.map((video) => (
-                <li key={video.snippet.channel} className="video-list">
-                  <YouTube videoId={video.id} opts={opts} className="video" />
-                  <p>{video.snippet.title}</p>
-                </li>
-              ))
-            ) : (
-              <p className="no-videos">No Videos, kindly search using the search bar</p>
+          {!isLoading && (
+            <p className="text-center">
+              {" "}
+              <b>{videos.length}</b> videos was found!
+            </p>
+          )}
+
+          <ul className="video-list">
+            {videos.length === 0 && !isLoading && !error && (
+              <p>
+                {search.trim() ? "No videos found." : "Enter a search term."}
+              </p>
             )}
+            {videos.map((video) => (
+              <li key={video.id.videoId} className="video">
+                <YouTube videoId={video.id.videoId} opts={opts} />
+                <div className="card-bottom">
+                  <h4>
+                    {video.snippet.title.length < 40
+                      ? video.snippet.title
+                      : video.snippet.title.slice(0, 40) + "..."}
+                  </h4>
+                  <button
+                    className="btn"
+                    onClick={() => handleSavedVideos(video)}
+                  >
+                    <FontAwesomeIcon
+                      icon={faHeart}
+                      size="xl"
+                      className="icon"
+                      color="transparent"
+                      stroke="red"
+                      strokeWidth={20}
+                    />
+                  </button>
+                </div>
+              </li>
+            ))}
           </ul>
         </article>
       </main>
     </>
   );
 }
-
 export default Elearn;

@@ -92,6 +92,22 @@ export const DataProvider = ({ children }) => {
     window.location.href = "/user-profile";
   };
 
+  //E-LEARN
+
+  const [isLiked, setIsLiked] = useState(
+    [] || JSON.parse(localStorage.getItem("liked"))
+  );
+
+  // let retrievedLikedVideos = [];
+  // try {
+  //   const storedLikedVideos = localStorage.getItem("liked");
+  //   if (storedLikedVideos) {
+  //     retrievedLikedVideos = JSON.parse(storedLikedVideos);
+  //   }
+  // } catch (error) {
+  //   console.error("Error parsing liked videos from localStorage:", error);
+  // }
+
   return (
     <DataContext.Provider
       value={{
@@ -130,6 +146,9 @@ export const DataProvider = ({ children }) => {
         setConfirmExit,
         handleActivityLog,
         recentActivities,
+        // E-LEARN
+        isLiked,
+        setIsLiked,
       }}
     >
       {children}
