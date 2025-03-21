@@ -8,7 +8,7 @@ const DisplayCorrectAnswer = () => {
     <>
       <div className="display-answer">
         <div
-          className="show-correct-answer  animate__animated animate__bounceIn
+          className="modal correct-answer  
       "
         >
           <svg

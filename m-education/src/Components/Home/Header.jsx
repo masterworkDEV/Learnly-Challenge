@@ -20,9 +20,9 @@ const Header = () => {
   const [listItems, setListItems] = useState([
     { title: "Home", icon: faHome, link: "/user-profile" },
     { title: "Quizes", icon: faDice, link: "/quizes" },
-    { title: "Library", icon: faBook, link: "/library" },
     { title: "E-learn", icon: faComputer, link: "/E-learn" },
-    { title: "Dictionary", icon: faBookOpen, link: "/dictionary" },
+    { title: "Library", icon: faBook, link: "/library" },
+    { title: "Saved Courses", icon: faBookOpen, link: "/saved-courses" },
   ]);
   const [userProfileMenu, setUserProfileMenu] = useState(false);
 

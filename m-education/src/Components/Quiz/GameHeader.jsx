@@ -6,7 +6,6 @@ const Header = () => {
   const {
     currentQuestion,
     newQuiz,
-    confirmExit,
     setConfirmExit,
     timeLeft,
     setTimeLeft,
@@ -76,7 +75,7 @@ const Header = () => {
       </span>
       <div className="time-container">
         <span>
-          <b>Time Left:</b>
+          <b>Time:</b>
         </span>
         <span className="timeleft">{formatTime(timeLeft)}</span>
       </div>

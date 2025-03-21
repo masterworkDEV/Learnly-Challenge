@@ -7,7 +7,7 @@ import { faHeart, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import DataContext from "../Context/DataContext";
 
 function Elearn() {
-  const { isLiked } = useContext(DataContext);
+  const { isLiked, setIsLiked } = useContext(DataContext);
   const [search, setSearch] = useState("");
   const [videos, setVideos] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -59,8 +59,6 @@ function Elearn() {
   };
 
   const opts = {
-    height: "390",
-    width: "640",
     playerVars: {
       autoplay: 0,
       controls: 1,
@@ -68,33 +66,41 @@ function Elearn() {
     },
   };
 
-  const handleSavedVideos = async (video) => {
+  const handleSavedVideos = (video) => {
     if (video.id !== null) {
       try {
-        const checkStatus = isLiked.find((item) => {
-          if (item.id.videoId === video.id.videoId) {
-            return item;
-          }
-        });
-        (await checkStatus) ? false : isLiked.push({ ...video });
-        localStorage.setItem("liked", JSON.stringify(isLiked));
+        const isVideoLiked = isLiked.some(
+          (item) => item.id.videoId === video.id.videoId
+        );
+
+        if (isVideoLiked) {
+          alert("You already saved this video");
+          return;
+        } else {
+          setIsLiked((prevLiked) => [...prevLiked, { ...video }]);
+          localStorage.setItem(
+            "liked",
+            JSON.stringify([...isLiked, { ...video }])
+          );
+          console.log("Video saved to localStorage");
+        }
       } catch (error) {
-        alert("Error something went wrong, cannot save video");
+        console.error("Error saving video:", error);
+        alert("Error: Something went wrong, cannot save video.");
       }
     }
   };
-
   return (
     <>
-      <header className="quizes-header">
-        <div className="quizes-header-wrapper">
+      <header className="page-header learn">
+        <div className="page-header-wrapper">
           <Link to="/user-profile">
-            <nav className="quizes-nav">
+            <nav className="page-nav">
               <FontAwesomeIcon icon={faArrowLeft} color="#18493e" size="1x" />
             </nav>
           </Link>
 
-          <span>E Learn</span>
+          <span className="title learn">E-Learn</span>
         </div>
       </header>
       <main className="e-learn">
@@ -113,7 +119,14 @@ function Elearn() {
         </form>
 
         <article className="video-container">
-          {isLoading && <p className="text-center">Loading please wait...</p>}
+          {isLoading && (
+            <>
+              <div className="modal">
+                <span class="loader"></span>
+              </div>
+              <div className="overlay"></div>
+            </>
+          )}
           {error && <p className="text-center">{error}</p>}
 
           {!isLoading && (

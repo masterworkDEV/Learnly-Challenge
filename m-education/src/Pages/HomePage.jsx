@@ -2,6 +2,12 @@ import { useContext, useEffect, useState } from "react";
 import DataContext from "../Context/DataContext";
 import { Link } from "react-router-dom";
 import Header from "../Components/Home/Header";
+// images
+import firstImage from "../assets/images/first-card.jpg";
+import secondCard from "../assets/images/second-card.jpg";
+import thirdCard from "../assets/images/third-card.jpg";
+import fourthCard from "../assets/images/fourth-card.jpg";
+import fifthCard from "../assets/images/fifth-card.jpg";
 
 const HomePage = () => {
   const { headerState, setHeaderState, recentActivities } =
@@ -11,8 +17,7 @@ const HomePage = () => {
 
   const [articles, setArticles] = useState([
     {
-      image:
-        "https://img.freepik.com/free-photo/two-white-chalk-blackboard_1098-3898.jpg?t=st=1741774421~exp=1741778021~hmac=2d981564bc0f2736f2285903d3eaf112c94e0f7cb4ef422ea7272b683bc8cb27&w=1060",
+      image: fifthCard,
       alt: "Nola Quiz Illustration",
       title: "Test Your Knowledge with Nola",
       description:
@@ -24,8 +29,7 @@ const HomePage = () => {
       icon: "bx bx-desktop",
     },
     {
-      image:
-        "https://img.freepik.com/free-photo/mobile-phone-with-white-screen-diary-near-painting-colors-wooden-table_23-2148050728.jpg?t=st=1741774257~exp=1741777857~hmac=ad9483317097e319d3b8512425769cd2f71071952258d9d2a92feb2f3826fefb&w=1060",
+      image: secondCard,
       alt: "Library Illustration with Tablet",
       title: "Imagine having access to a world-class library wherever you go.",
       description:
@@ -37,8 +41,7 @@ const HomePage = () => {
       icon: "bx bxs-book-open",
     },
     {
-      image:
-        "https://img.freepik.com/free-photo/international-day-literacy-concept-with-learning-tools_1150-24438.jpg?t=st=1741774566~exp=1741778166~hmac=75efa10c8e87c6281d0b885ef54a1d496491bd6c8ff958347d871b973862e515&w=1060",
+      image: thirdCard,
       alt: "E-learning Illustration with Notebooks",
       title: "Empower yourself through our innovative e-learning courses",
       description:
@@ -50,7 +53,7 @@ const HomePage = () => {
       icon: "bx bx-library",
     },
     {
-      image: "src/assets/images/first-card.jpg", // Replace with an appropriate image URL
+      image: fourthCard,
       alt: "Saved Courses Collection",
       title: "Your Personalized Learning Journey",
       description:

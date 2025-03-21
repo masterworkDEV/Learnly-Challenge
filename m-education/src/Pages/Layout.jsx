@@ -8,7 +8,6 @@ import Elearn from "./E-Learn";
 import Quizes from "./Quizes";
 import QuizApp from "./QuizApp";
 import MissingPage from "./MissingPage";
-import QuizPreference from "../Components/Quiz/QuizPreference";
 
 const Layout = () => {
   return (
@@ -20,7 +19,6 @@ const Layout = () => {
       <Route path="/saved-courses" element={<SavedCourses />} />
       <Route path="/E-learn" element={<Elearn />} />
       <Route path="/quiz" element={<QuizApp />} />
-      <Route path="/quiz-preference" element={<QuizPreference />} />
       <Route path="/quizes" element={<Quizes />} />
       <Route path="*" element={<MissingPage />} />
     </Routes>

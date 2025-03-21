@@ -15,7 +15,9 @@ const CurrentQuestion = () => {
     <article className="current-question">
       {!newQuiz.length ? (
         <div className="no-question">
-          <p>Sorry No Question found!!</p>
+          <small>Sorry No Question found!!</small>
+          <br />
+
           <Link to="/user-profile">back to dashboard</Link>
         </div>
       ) : (

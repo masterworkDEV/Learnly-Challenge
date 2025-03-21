@@ -38,12 +38,6 @@ const SetProfile = ({}) => {
   const handlePictureChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // we can as well do it this way and it would work just fine.
-
-      // const imageURL = URL.createObjectURL(file);
-      // setProfilePicture(imageURL);
-
-      // But here is an efficient way....
       const reader = new FileReader();
       reader.onloadend = () => {
         setProfilePicture(reader.result);

@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import DataContext from "../Context/DataContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate, Link } from "react-router-dom";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const Quizes = () => {
   const {
@@ -44,15 +44,15 @@ const Quizes = () => {
   }, [headerState]);
   return (
     <div className="quizes">
-      <header className="quizes-header">
-        <div className="quizes-header-wrapper">
+      <header className="page-header">
+        <div className="page-header-wrapper">
           <Link to="/user-profile">
-            <nav className="quizes-nav">
+            <nav className="page-nav">
               <FontAwesomeIcon icon={faArrowLeft} color="white" size="1x" />
             </nav>
           </Link>
 
-          <span className="title">Quizes</span>
+          <span className="title quizes">Quizes</span>
         </div>
       </header>
 
@@ -73,9 +73,9 @@ const Quizes = () => {
         </ul>
         {modal && (
           <>
-            <form className="set-question-modal" onSubmit={handleSubmit}>
-              <button onClick={handleCloseModal} className="close">
-                X
+            <form className="modal" onSubmit={handleSubmit}>
+              <button onClick={handleCloseModal} className="close-btn">
+                <FontAwesomeIcon icon={faTimes} size="1x" />
               </button>
               <p>Kindly set questions from 10 -- 50</p>
               <input
@@ -85,9 +85,12 @@ const Quizes = () => {
                 placeholder="Set number of questions"
                 min="10"
                 max="50"
+                className="input-question"
                 required
               />
-              <button type="submit">Set Question</button>
+              <button type="submit" className="set-question-btn">
+                Set Question
+              </button>
             </form>
             <div className="overlay"></div>
           </>

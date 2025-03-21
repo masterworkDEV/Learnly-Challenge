@@ -6,7 +6,7 @@ const DisplayWrongAnswer = () => {
   return (
     <>
       <div className="display-answer">
-        <div className="show-wrong-answer  animate__animated animate__bounceIn">
+        <div className="modal wrong-answer  ">
           <svg
             className=" animate__animated animate__tada"
             fill="none"

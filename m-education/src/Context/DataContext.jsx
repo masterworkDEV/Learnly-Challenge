@@ -35,6 +35,7 @@ export const DataProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // FETCH QUIZES FUNCTION
   const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchQuizes = async () => {
@@ -95,18 +96,8 @@ export const DataProvider = ({ children }) => {
   //E-LEARN
 
   const [isLiked, setIsLiked] = useState(
-    [] || JSON.parse(localStorage.getItem("liked"))
+    JSON.parse(localStorage.getItem("liked")) || []
   );
-
-  // let retrievedLikedVideos = [];
-  // try {
-  //   const storedLikedVideos = localStorage.getItem("liked");
-  //   if (storedLikedVideos) {
-  //     retrievedLikedVideos = JSON.parse(storedLikedVideos);
-  //   }
-  // } catch (error) {
-  //   console.error("Error parsing liked videos from localStorage:", error);
-  // }
 
   return (
     <DataContext.Provider

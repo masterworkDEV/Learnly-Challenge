@@ -2,55 +2,39 @@ import React, { useContext } from "react";
 import DataContext from "../../Context/DataContext";
 
 const Result = () => {
-  const {
-    newQuiz,
-    setScore,
-    score,
-    userName,
-    setCurrentQuestion,
-    setSelectedOption,
-    setShowResult,
-    setVerifyAnswer,
-    setTimeLeft,
-    setConfirmExit,
-    handleActivityLog,
-  } = useContext(DataContext);
+  const { newQuiz, score, userName, handleActivityLog } =
+    useContext(DataContext);
 
   const title = "My Quiz Result";
-  const text = `I scored <span class="math-inline">${score}</span>${
-    newQuiz.length * 5
-  } on the Nola quiz app!`;
   const url = window.location.href;
+  const text = (
+    <p>
+      Hi dear, i scored <span class="math-inline">${score}</span>
+      {newQuiz.length * 5} on the Nola quiz app!
+    </p>
+  );
 
   const handleShare = async () => {
     if (navigator.share) {
       try {
-        await navigator.share({
-          title,
-          text,
-          url,
-        });
-        console.log("Shared successfully!");
+        const shared = await navigator.share({ title, url, text });
+        console.log("shared successfully");
+        return shared;
       } catch (error) {
-        console.error("Error sharing:", error);
+        console.log("Failed to share!");
+        alert("Failed to share!");
       }
     } else {
-      // Fallback for browsers that don't support Web Share API
       console.log("Web Share API not supported.");
-      // You can implement a fallback here (see below)
       copyToClipboard(url);
     }
   };
 
-  const copyToClipboard = (text) => {
-    navigator.clipboard.writeText(text).then(
-      () => {
-        alert("Link copied to clipboard!");
-      },
-      (err) => {
-        console.error("Failed to copy: ", err);
-      }
-    );
+  const copyToClipboard = async (string) => {
+    navigator.clipboard
+      .writeText(string)
+      .then(() => alert("Link copied to clipboard"))
+      .catch((err) => console.log("Failed to copy", err));
   };
 
   return (

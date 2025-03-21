@@ -122,7 +122,7 @@ const Options = () => {
         <button type="submit">Next</button>
       ) : (
         <button onClick={() => (window.location.href = "/user-profile")}>
-          Go bak home
+          Go back home
         </button>
       )}
     </form>

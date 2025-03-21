@@ -6,15 +6,15 @@ Link;
 function BookDisplay() {
   return (
     <>
-      <header className="quizes-header">
-        <div className="quizes-header-wrapper">
+      <header className="page-header">
+        <div className="page-header-wrapper">
           <Link to="/user-profile">
-            <nav className="quizes-nav">
+            <nav className="page-nav">
               <FontAwesomeIcon icon={faArrowLeft} color="#18493e" size="1x" />
             </nav>
           </Link>
 
-          <span>Library</span>
+          <span className="title">Library</span>
         </div>
       </header>
       <div className="library">

@@ -27,7 +27,7 @@ const ExitQuiz = () => {
   };
   return (
     <>
-      <div className="exit-modal">
+      <div className="modal">
         <h4>Are you sure you want to quit??</h4>
         <div className="exit-btns">
           <button onClick={handleContinueGame}>No</button>
