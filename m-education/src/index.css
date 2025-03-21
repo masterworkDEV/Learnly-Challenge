@@ -821,8 +821,8 @@ select {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 70px;
-  height: 70px;
+  width: 60px;
+  height: 60px;
   fill: rgba(255, 0, 0, 0.804);
   margin-bottom: 0.3rem;
 }
