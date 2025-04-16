@@ -1,22 +1,38 @@
-import { useState, useEffect, useContext, createContext } from "react";
+import { useState, useEffect, createContext } from "react";
 import axios from "axios";
 
 const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
+  // global states
   const [headerState, setHeaderState] = useState(true);
-  const [selectedCategory, setSelectedCategory] = useState("");
-  const [selectedNumbersOfQuestion, setSelectedNumbersOfQuestion] = useState(0);
-  const [newQuiz, setNewQuiz] = useState([]);
-  const [userName, setUserName] = useState(
-    JSON.parse(localStorage.getItem("username")) || ""
-  );
   const [userGender, setUserGender] = useState(
     JSON.parse(localStorage.getItem("gender")) || ""
   );
   const [userProfilePicture, setUserProfilePicture] = useState(
     JSON.parse(localStorage.getItem("profilePicture")) || null
   );
+  const [userName, setUserName] = useState(
+    JSON.parse(localStorage.getItem("username")) || ""
+  );
+
+  // activity logs
+  const [recentActivities, setRecentActivities] = useState(
+    JSON.parse(localStorage.getItem("activities")) || []
+  );
+
+  //E-LEARN states
+
+  const [isLiked, setIsLiked] = useState(
+    JSON.parse(localStorage.getItem("liked")) || []
+  );
+
+  // quiz app states
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedNumbersOfQuestion, setSelectedNumbersOfQuestion] = useState(0);
+  const [newQuiz, setNewQuiz] = useState([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState(null);
   const [verifyAnswer, setVerifyAnswer] = useState(false);
@@ -27,14 +43,6 @@ export const DataProvider = ({ children }) => {
   const [showResult, setShowResult] = useState(false);
   const [confirmExit, setConfirmExit] = useState(null);
 
-  // activity logs
-  const [recentActivities, setRecentActivities] = useState(
-    JSON.parse(localStorage.getItem("activities")) || []
-  );
-
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-
   // FETCH QUIZES FUNCTION
   const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
@@ -44,16 +52,15 @@ export const DataProvider = ({ children }) => {
         const response = await axios.get(API_URL);
         const filteredResult = await response.data.results
           .filter((item) => {
-            if (item.length > 5) {
+            if (item.length > 10) {
               return item.category
                 .toLowerCase()
                 .includes(selectedCategory.toLowerCase());
             } else {
-              return item;
+              return item || [];
             }
           })
           .slice(0, selectedNumbersOfQuestion);
-
         console.log(filteredResult);
         setNewQuiz(filteredResult);
       } catch (err) {
@@ -69,7 +76,7 @@ export const DataProvider = ({ children }) => {
       }
     };
     fetchQuizes();
-  }, [API_URL, selectedCategory, selectedNumbersOfQuestion]);
+  }, [API_URL, selectedCategory, selectedNumbersOfQuestion]); // track every dependencies and processes
 
   //Quiz object for each question
   const currentQuestionData = newQuiz[currentQuestion];
@@ -93,15 +100,10 @@ export const DataProvider = ({ children }) => {
     window.location.href = "/user-profile";
   };
 
-  //E-LEARN
-
-  const [isLiked, setIsLiked] = useState(
-    JSON.parse(localStorage.getItem("liked")) || []
-  );
-
   return (
     <DataContext.Provider
       value={{
+        // global states
         headerState,
         setHeaderState,
         userName,
@@ -110,12 +112,20 @@ export const DataProvider = ({ children }) => {
         setUserProfilePicture,
         userGender,
         setUserGender,
+
+        // activity  states
+        handleActivityLog,
+        recentActivities,
+        isLiked,
+        setIsLiked,
+
+        // quiz states
+        newQuiz,
+        setNewQuiz,
         selectedCategory,
         setSelectedCategory,
         selectedNumbersOfQuestion,
         setSelectedNumbersOfQuestion,
-        newQuiz,
-        setNewQuiz,
         currentQuestionData,
         currentQuestion,
         setCurrentQuestion,
@@ -135,11 +145,6 @@ export const DataProvider = ({ children }) => {
         setShowResult,
         confirmExit,
         setConfirmExit,
-        handleActivityLog,
-        recentActivities,
-        // E-LEARN
-        isLiked,
-        setIsLiked,
       }}
     >
       {children}

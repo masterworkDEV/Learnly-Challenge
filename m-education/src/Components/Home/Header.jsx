@@ -14,7 +14,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 const Header = () => {
-  const { headerState, setHeaderState, userName, userProfilePicture, score } =
+  const { headerState, userName, userProfilePicture, score } =
     useContext(DataContext);
 
   const [listItems, setListItems] = useState([
