@@ -44,13 +44,32 @@ export const DataProvider = ({ children }) => {
   const [confirmExit, setConfirmExit] = useState(null);
 
   // FETCH QUIZES FUNCTION
+
+  // decode texts to  html textContent
+
+  function decodeHtml(html) {
+    const parser = new DOMParser();
+    const decodedString = parser.parseFromString(html, "text/html").body
+      .textContent;
+    return decodedString;
+  }
+
   const API_URL = import.meta.env.VITE_API_URL;
   useEffect(() => {
     const fetchQuizes = async () => {
       setIsLoading(true);
       try {
         const response = await axios.get(API_URL);
-        const filteredResult = await response.data.results
+
+        const decodedData = await response.data.results
+          .map((questionData) => ({
+            ...questionData,
+            question: decodeHtml(questionData.question),
+            correct_answer: decodeHtml(questionData.correct_answer),
+            incorrect_answers: questionData.incorrect_answers.map(decodeHtml),
+            // Decode other relevant string properties as needed
+          }))
+          // filter according to user preference
           .filter((item) => {
             if (item.length > 10) {
               return item.category
@@ -61,8 +80,10 @@ export const DataProvider = ({ children }) => {
             }
           })
           .slice(0, selectedNumbersOfQuestion);
-        console.log(filteredResult);
-        setNewQuiz(filteredResult);
+
+        // log and display in the DOM
+        console.log(decodedData);
+        setNewQuiz(decodedData);
       } catch (err) {
         if (err.response) {
           console.log(err.message);

@@ -7,12 +7,9 @@ const Result = () => {
 
   const title = "My Quiz Result";
   const url = window.location.href;
-  const text = (
-    <p>
+  const text = `
       Hi dear, i scored <span class="math-inline">${score}</span>
-      {newQuiz.length * 5} on the Nola quiz app!
-    </p>
-  );
+      {newQuiz.length * 5} on the Nola quiz app!`;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -30,9 +27,9 @@ const Result = () => {
     }
   };
 
-  const copyToClipboard = async (string) => {
+  const copyToClipboard = async (text) => {
     navigator.clipboard
-      .writeText(string)
+      .writeText(text)
       .then(() => alert("Link copied to clipboard"))
       .catch((err) => console.log("Failed to copy", err));
   };

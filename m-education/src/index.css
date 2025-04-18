@@ -37,11 +37,17 @@ html {
 
 ul {
   list-style: none;
+
+  li {
+    font-size: var(--font-size-sm);
+  }
 }
+
 a {
   text-decoration: none;
-  font-size: var(--font-size);
+  font-size: var(--font-size-sm);
 }
+
 button,
 input {
   border: none;

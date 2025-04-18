@@ -11,13 +11,13 @@ const CurrentQuestion = () => {
       setActiveQuestion(currentQuestionData);
     }
   }, [currentQuestionData]);
+
   return (
     <article className="current-question">
       {!newQuiz.length ? (
         <div className="no-question">
           <small>Sorry No Question found!!</small>
           <br />
-
           <Link to="/user-profile">back to dashboard</Link>
         </div>
       ) : (

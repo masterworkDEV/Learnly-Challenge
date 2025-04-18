@@ -23,6 +23,7 @@ const Options = () => {
     setShowResult,
     newQuiz,
   } = useContext(DataContext);
+
   const [allOptions, setAllOptions] = useState([]);
 
   useEffect(() => {
