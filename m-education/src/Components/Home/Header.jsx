@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useRef, useState } from "react";
 import DataContext from "../../Context/DataContext";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +13,8 @@ import {
   faBookOpen,
 } from "@fortawesome/free-solid-svg-icons";
 
+import useOnClickOutside from "../../hooks/onClickOutside";
+
 const Header = () => {
   const { headerState, userName, userProfilePicture, score } =
     useContext(DataContext);
@@ -24,15 +26,15 @@ const Header = () => {
     { title: "Library", icon: faBook, link: "/library" },
     { title: "Saved Courses", icon: faBookOpen, link: "/saved-courses" },
   ]);
-  const [userProfileMenu, setUserProfileMenu] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const isOpenRef = useRef(null);
 
-  const toggleUserProfileMenu = () => {
-    setUserProfileMenu(!userProfileMenu);
-  };
+  // menu toggle
+  const toggleUserProfileMenu = () => setIsOpen(!isOpen);
+  const handleExitMenu = () => setIsOpen(!isOpen);
+  const handleOnClickOutside = () => setIsOpen(false);
+  useOnClickOutside(isOpenRef, handleOnClickOutside);
 
-  const handleExitMenu = () => {
-    setUserProfileMenu(!userProfileMenu);
-  };
   return (
     <>
       {headerState && (
@@ -56,9 +58,12 @@ const Header = () => {
           </div>
         </header>
       )}
-      {userProfileMenu && (
+      {isOpen && (
         <>
-          <div className="user-menu animate__animated animate__fadeInLeft">
+          <div
+            ref={isOpenRef}
+            className="user-menu animate__animated animate__fadeInLeft"
+          >
             <button className="exit-menu" onClick={handleExitMenu}>
               <FontAwesomeIcon icon={faTimes} size="xl" />
             </button>
