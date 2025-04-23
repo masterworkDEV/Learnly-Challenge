@@ -1,5 +1,8 @@
 import React, { useEffect, useState, useContext } from "react";
 import DataContext from "../Context/DataContext";
+import image1 from "../assets/images/first-card.jpg";
+import image2 from "../assets/images/second-card.jpg";
+import image3 from "../assets/images/third-card.jpg";
 
 const SetProfile = ({}) => {
   const {
@@ -43,11 +46,37 @@ const SetProfile = ({}) => {
         setProfilePicture(reader.result);
       };
       reader.readAsDataURL(file);
+    } else {
+      alert("Upload an image...");
     }
   };
 
   return (
     <main className="profile">
+      {slide === 1 ? (
+        <img
+          src={image1}
+          alt="background images"
+          className="images animate__animated animate__fadeInRight"
+        />
+      ) : slide === 2 ? (
+        <img
+          src={image2}
+          alt="background images"
+          className="images
+        animate__animated animate__fadeInRight
+        "
+        />
+      ) : (
+        <img
+          src={image3}
+          alt="background images"
+          className="images
+        animate__animated animate__fadeInRight
+        "
+        />
+      )}
+
       <div className="logo">
         <span className="logo container">
           <h1 className="text">LEARN</h1>

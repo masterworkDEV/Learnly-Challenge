@@ -94,6 +94,84 @@ body {
   z-index: 2;
 }
 
+.overlay.white {
+  position: fixed;
+  max-width: 1080px;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  right: 0;
+  bottom: 0;
+  background: rgba(245, 244, 244, 0.5);
+  z-index: 1;
+}
+
+/*route loading animation */
+
+.loader-container {
+  height: 100vh;
+  width: 100%;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  z-index: 999;
+}
+.loader-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.loader {
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--darkgreen);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  position: relative;
+  animation: pulse 1s linear infinite;
+  z-index: 2;
+}
+.loader:after {
+  content: "";
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border: 5px solid var(--primary-bg-blend);
+  border-radius: 50%;
+  display: inline-block;
+  box-sizing: border-box;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  animation: scaleUp 1s linear infinite;
+}
+
+@keyframes scaleUp {
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+  }
+  60%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+@keyframes pulse {
+  0%,
+  60%,
+  100% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1.2);
+  }
+}
+/*  */
 .modal {
   display: flex;
   justify-content: center;
@@ -242,7 +320,7 @@ body {
 .profile-picture {
   width: 60px;
   height: 60px;
-  border: 5px solid var(--primary-bg);
+  border: 4px solid var(--primary-bg);
   border-radius: 50%;
   object-fit: cover;
 }
@@ -485,15 +563,17 @@ body {
   align-items: center;
   justify-content: center;
   flex-direction: column;
+}
+.profile > .images {
+  max-width: 1080px;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  background: linear-gradient(
-      to left,
-      var(--primary-bg),
-      var(--primary-bg-blend)
-    ),
-    url("./assets/images/fourth-card.jpg");
+  object-fit: cover;
+  position: absolute;
 }
 
 .profile > .logo {
@@ -504,6 +584,7 @@ body {
   width: 200px;
   height: 200px;
   border-radius: 50%;
+  z-index: 2;
 }
 
 .logo.container {
@@ -525,6 +606,7 @@ body {
   width: 100%;
   max-width: 1080px;
   padding-inline: 1rem;
+  z-index: 2;
 }
 
 .enter-profile-defails label {
@@ -960,52 +1042,6 @@ select {
   color: var(--text-secondary);
   border-top-right-radius: 0.3rem;
   border-bottom-right-radius: 0.3rem;
-}
-
-/* loader */
-.loader {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  position: relative;
-  animation: rotate 1s linear infinite;
-}
-.loader::before,
-.loader::after {
-  content: "";
-  box-sizing: border-box;
-  position: absolute;
-  inset: 0px;
-  border-radius: 50%;
-  border: 5px solid #fff;
-  animation: prixClipFix 2s linear infinite;
-}
-.loader::after {
-  transform: rotate3d(90, 90, 0, 180deg);
-  border-color: #ff3d00;
-  z-index: 99;
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes prixClipFix {
-  0% {
-    clip-path: polygon(50% 50%, 0 0, 0 0, 0 0, 0 0, 0 0);
-  }
-  50% {
-    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 0, 100% 0, 100% 0);
-  }
-  75%,
-  100% {
-    clip-path: polygon(50% 50%, 0 0, 100% 0, 100% 100%, 100% 100%, 100% 100%);
-  }
 }
 
 /* ends here  */

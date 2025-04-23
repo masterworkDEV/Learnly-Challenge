@@ -36,7 +36,6 @@ function Elearn() {
 
   const debouncedSearch = useCallback(async () => {
     if (!search.trim()) return;
-
     setIsLoading(true);
     setError(null);
     try {
@@ -78,10 +77,12 @@ function Elearn() {
           return;
         } else {
           setIsLiked((prevLiked) => [...prevLiked, { ...video }]);
+
           localStorage.setItem(
             "liked",
             JSON.stringify([...isLiked, { ...video }])
           );
+          alert(`Video saved sucessfully!`);
           console.log("Video saved to localStorage");
         }
       } catch (error) {
@@ -121,10 +122,10 @@ function Elearn() {
         <article className="video-container">
           {isLoading && (
             <>
-              <div className="modal">
+              <div className="loader-container">
                 <span class="loader"></span>
               </div>
-              <div className="overlay"></div>
+              <div className="overlay white"></div>
             </>
           )}
           {error && <p className="text-center">{error}</p>}

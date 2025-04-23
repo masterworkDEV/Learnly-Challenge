@@ -70,7 +70,7 @@ const Header = () => {
                   alt={userName}
                   className="profile-picture"
                 />
-                <h4>{userName}</h4>
+                <p>{userName}</p>
                 <small>Nola points {score}pts</small>
               </div>
               <nav className="user-nav">
