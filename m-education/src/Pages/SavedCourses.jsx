@@ -50,23 +50,24 @@ const SavedCourses = () => {
         </div>
       </header>
       <main className="saved-courses">
+        {isLiked.length > 1 && (
+          <div className="text-center">
+            <p>
+              You have{" "}
+              <span>
+                {isLiked.length} <br />
+              </span>
+              <span>
+                {isLiked.length >= 1 && isLiked.length < 2
+                  ? "course"
+                  : "courses "}
+              </span>
+              saved
+            </p>
+          </div>
+        )}
+
         <ul className="video-list" id="saved-list">
-          {isLiked.length > 1 && (
-            <div className="text-center">
-              <p>
-                You have{" "}
-                <span>
-                  {isLiked.length} <br />
-                </span>
-                <span>
-                  {isLiked.length >= 1 && isLiked.length < 2
-                    ? "course"
-                    : "courses "}
-                </span>
-                saved
-              </p>
-            </div>
-          )}
           {isLiked.length ? (
             [...isLiked].reverse().map((video) => (
               <li key={video?.id?.videoId} className="video">

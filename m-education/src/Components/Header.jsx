@@ -1,5 +1,5 @@
 import { useContext, useRef, useState } from "react";
-import DataContext from "../../Context/DataContext";
+import DataContext from "../Context/DataContext";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,7 +13,7 @@ import {
   faBookOpen,
 } from "@fortawesome/free-solid-svg-icons";
 
-import useOnClickOutside from "../../hooks/onClickOutside";
+import useOnClickOutside from "../hooks/onClickOutside";
 
 const Header = () => {
   const { headerState, userName, userProfilePicture, score } =
@@ -60,10 +60,7 @@ const Header = () => {
       )}
       {isOpen && (
         <>
-          <div
-            ref={isOpenRef}
-            className="user-menu animate__animated animate__fadeInLeft"
-          >
+          <div ref={isOpenRef} className="user-menu">
             <button className="exit-menu" onClick={handleExitMenu}>
               <FontAwesomeIcon icon={faTimes} size="xl" />
             </button>
@@ -78,7 +75,7 @@ const Header = () => {
                 <p>{userName}</p>
                 <small>Nola points {score}pts</small>
               </div>
-              <nav className="user-nav">
+              <nav className="user-nav ">
                 <ul>
                   {listItems.length &&
                     listItems.map((list) => (
@@ -86,10 +83,22 @@ const Header = () => {
                         <FontAwesomeIcon
                           icon={list.icon}
                           size="xl"
-                          className="icon"
+                          className="icon 
+                          
+
+                          
+                          "
                           color="#2d6c55"
                         />
-                        <Link to={list.link}>{list.title}</Link>
+                        <Link
+                          className="
+animate__animated animate__fadeInLeft  
+                        
+                        "
+                          to={list.link}
+                        >
+                          {list.title}
+                        </Link>
                       </li>
                     ))}
                 </ul>

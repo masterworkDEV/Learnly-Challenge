@@ -289,12 +289,24 @@ body {
 }
 
 /* logged in user menu */
+
+@keyframes is-open {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 70%;
+  }
+}
+
 .user-menu {
   position: fixed;
+  display: flex;
   background: var(--secondary-bg);
   height: 100vh;
-  width: 65%;
+  width: 70%;
   z-index: 3;
+  animation: is-open 0.2s ease-out;
 }
 
 .user-menu > .exit-menu {
@@ -307,8 +319,13 @@ body {
 }
 
 .user-menu > .container {
-  margin-top: 5rem;
+  margin-top: 4rem;
   margin-inline: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  flex-grow: 1;
+  flex-shrink: 1;
 }
 
 .user-menu > .container > .user-info {
@@ -347,11 +364,10 @@ body {
 .user-menu .container > button {
   display: flex;
   align-items: center;
-  position: fixed;
+  gap: 1rem;
+  flex: 1;
   border: none;
   background: none;
-  gap: 1rem;
-  bottom: 5%;
   font-weight: 700;
 }
 
@@ -542,14 +558,30 @@ body {
   margin-bottom: 1rem;
 }
 
-.activity-col.result {
-  width: 60px;
-  height: 60px;
+.activity-col .result {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
+}
+.activity-col .result {
+  width: 50px;
+  height: 50px;
+  background-color: yellow;
   border-radius: 50%;
-  background: rgba(255, 68, 0, 0.161);
+}
+.result.low {
+  background: red;
+}
+.result.fair {
+  background: var(--primary-bg-blend);
+}
+.result.good {
+  background: rgb(179, 5, 179);
+}
+.result.excellent {
+  background: rgb(2, 223, 116);
 }
 
 /* ends here */
@@ -923,20 +955,23 @@ select {
 
 .modal > .exit-btns {
   display: flex;
-  justify-content: end;
   align-items: center;
+  margin-left: 3rem;
   gap: 5rem;
   margin-top: 1.5rem;
 }
 .modal > h4 {
   margin-top: 1rem;
   color: var(--text-primary);
+  text-align: start;
 }
+
 .exit-btns > button {
   border: none;
   font-size: var(--font-size);
-  padding: 1rem;
+  padding: 0.5rem;
   cursor: pointer;
+  border-radius: 0.1rem;
   &:hover {
     opacity: 0.9;
   }

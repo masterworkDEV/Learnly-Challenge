@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import DataContext from "../Context/DataContext";
 import { Link } from "react-router-dom";
-import Header from "../Components/Home/Header";
+import Header from "../Components/Header";
 // images
 import firstImage from "../assets/images/first-card.jpg";
 import secondCard from "../assets/images/second-card.jpg";
@@ -10,10 +10,10 @@ import fourthCard from "../assets/images/fourth-card.jpg";
 import fifthCard from "../assets/images/fifth-card.jpg";
 
 const HomePage = () => {
-  const { headerState, setHeaderState, recentActivities } =
+  const { headerState, setHeaderState, recentActivities, score, newQuiz } =
     useContext(DataContext);
   const [initialActivity, setInitialActivity] = useState(0);
-  const [activityPerPage, setActivityPerPage] = useState(6);
+  const [activityPerPage, setActivityPerPage] = useState(10);
 
   const [articles, setArticles] = useState([
     {
@@ -151,11 +151,11 @@ const HomePage = () => {
               .map((activity, index) => (
                 <li className="recent-activity-list" key={index}>
                   <div className="activity-col">
-                    <div></div>
                     <span>
                       <p>
                         <strong>{activity.title}</strong>
                       </p>
+
                       <p>
                         {activity.questions
                           ? `${activity.questions} Questions`
@@ -163,8 +163,23 @@ const HomePage = () => {
                       </p>
                     </span>
                   </div>
-                  <div className="activity-col result">
-                    <div className="result">
+                  <div className="activity-col">
+                    <div
+                      className={`
+                        result ${
+                          typeof score === "number" &&
+                          parseInt(activity.score) <= 20
+                            ? "low"
+                            : parseInt(activity.score) < 50
+                            ? "fair"
+                            : parseInt(activity.score) > 50 &&
+                              parseInt(activity.score) < 70
+                            ? "good"
+                            : parseInt(activity.score) > 70
+                            ? "excellent"
+                            : ""
+                        }`}
+                    >
                       <span>{activity.score}</span>
                     </div>
                   </div>
